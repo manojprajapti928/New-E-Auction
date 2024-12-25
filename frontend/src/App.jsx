@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./Component/Home";
 import Details from "./Component/Details";
@@ -19,6 +19,7 @@ import ProductCard from "./Component/ProductCard";
 import AddAuction from "./Component/AddAuction";
 import UpdateCard from "./Component/UpdateCard";
 
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -28,6 +29,8 @@ function App() {
 
   return (
     <>
+    
+    
       <Router>
         <Routes>
           {/* Public routes */}
@@ -36,6 +39,7 @@ function App() {
           {/* <Route path="/AdminLogin" element={<AdminLogin />} /> */}
           <Route path="/AuctionList" element={<AuctionList />} />
           <Route path="/bid-list" element={<BidDetail />} />
+          
 
           {/* Protected routes */}
           <Route
@@ -128,6 +132,7 @@ function App() {
           />
         </Routes>
       </Router>
+      
     </>
   );
 }
