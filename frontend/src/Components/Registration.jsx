@@ -14,7 +14,7 @@ export default function Registration() {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleChange = (e) => {
+  const ghandleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setError(""); // Clear errors on input change
