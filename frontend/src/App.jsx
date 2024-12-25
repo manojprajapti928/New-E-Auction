@@ -5,7 +5,7 @@ import Home from "./Component/Home";
 import Details from "./Component/Details";
 import Registration from "./Components/Registration";
 import LoginForm from "./Components/LoginForm";
-import AdminLogin from "./Component/AdminLogin";
+// import AdminLogin from "./Component/AdminLogin";
 import AdminDashboard from "./Component/AdminDashboard";
 import Dashboard from "./Component/Dashboard";
 import UserList from "./Component/UserList";
@@ -33,7 +33,7 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<LoginForm onLogin={handleLogin} />} />
           <Route path="/Registration" element={<Registration />} />
-          <Route path="/AdminLogin" element={<AdminLogin />} />
+          {/* <Route path="/AdminLogin" element={<AdminLogin />} /> */}
           <Route path="/AuctionList" element={<AuctionList />} />
           <Route path="/bid-list" element={<BidDetail />} />
 
