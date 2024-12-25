@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./Component/Home";
 import Details from "./Component/Details";
 import Registration from "./Components/Registration";
 import LoginForm from "./Components/LoginForm";
-import AdminLogin from "./Component/AdminLogin";
+// import AdminLogin from "./Component/AdminLogin";
 import AdminDashboard from "./Component/AdminDashboard";
 import Dashboard from "./Component/Dashboard";
 import UserList from "./Component/UserList";
@@ -19,6 +19,7 @@ import ProductCard from "./Component/ProductCard";
 import AddAuction from "./Component/AddAuction";
 import UpdateCard from "./Component/UpdateCard";
 
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -28,14 +29,17 @@ function App() {
 
   return (
     <>
+    
+    
       <Router>
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<LoginForm onLogin={handleLogin} />} />
           <Route path="/Registration" element={<Registration />} />
-          <Route path="/AdminLogin" element={<AdminLogin />} />
+          {/* <Route path="/AdminLogin" element={<AdminLogin />} /> */}
           <Route path="/AuctionList" element={<AuctionList />} />
           <Route path="/bid-list" element={<BidDetail />} />
+          
 
           {/* Protected routes */}
           <Route
@@ -128,6 +132,7 @@ function App() {
           />
         </Routes>
       </Router>
+      
     </>
   );
 }

@@ -85,16 +85,6 @@ const Details = () => {
       return;
     }
 
-    if (highestBid && bidAmount <= highestBid.amount && amount) {
-      alert("Please enter more than the recent bid amount.");
-      return;
-    }
-
-    if (bidAmount <= auction.Product?.startingPrice) {
-      alert("Your bid must be greater than the starting price.");
-      return;
-    }
-
     try {
       await axios.post(
         "http://localhost:3001/api/placeBid",
@@ -147,7 +137,7 @@ const Details = () => {
                 <img
                   src={auction.Product.imageUrl}
                   alt={auction.Product.name}
-                  className="w-[27vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-[70vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
                 <div className="h-[500px] bg-gray-800 flex items-center justify-center">
