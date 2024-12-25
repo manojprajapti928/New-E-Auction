@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -17,21 +21,16 @@ export default function LoginForm() {
       setError("Invalid email format");
       return;
     }
-    // if (password.length < 6) {
-    //   setError("Password must be at least 6 characters long");
-    //   return;
-    // }
 
     setLoading(true);
     try {
-      // Retrieve token if available
       const token = localStorage.getItem("token");
 
       const response = await fetch(`http://localhost:3001/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify({ email, password }),
       });
@@ -40,12 +39,8 @@ export default function LoginForm() {
       setLoading(false);
 
       if (response.ok) {
-        localStorage.setItem("token", data.token); // Store new token
-        if (data.role === "admin") {
-          navigate("/AdminDashboard", { replace: true });
-        } else if (data.role === "user") {
-          navigate("/Home", { replace: true });
-        }
+        localStorage.setItem("token", data.token);
+        navigate(data.role === "admin" ? "/AdminDashboard" : "/Home", { replace: true });
       } else {
         setError(data.error || "Login failed. Please check your credentials.");
       }
@@ -66,7 +61,6 @@ export default function LoginForm() {
           User Login
         </h2>
 
-        {/* Email Field */}
         <div className="mb-4">
           <label
             htmlFor="email"
@@ -85,7 +79,6 @@ export default function LoginForm() {
           />
         </div>
 
-        {/* Password Field */}
         <div className="mb-4">
           <label
             htmlFor="password"
@@ -104,10 +97,8 @@ export default function LoginForm() {
           />
         </div>
 
-        {/* Error Message */}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        {/* Login Button */}
         <button
           type="submit"
           disabled={loading}
@@ -120,15 +111,6 @@ export default function LoginForm() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <button
-          type="button"
-          onClick={() => navigate("/AdminLogin")}
-          className={`w-full py-2 px-4 rounded-md text-white transition duration-300 bg-blue-500 hover:bg-blue-600}`}
-        >
-          Admin Login
-        </button>
-
-        {/* Registration Link */}
         <p className="text-center mt-4">
           <Link to="/Registration" className="hover:text-blue-700">
             Don't have an account? Register here
@@ -138,3 +120,4 @@ export default function LoginForm() {
     </div>
   );
 }
+

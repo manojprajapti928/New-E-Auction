@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import Sidebar from "./Sidebar";
 export default function ProductCard() {
   const navigate = useNavigate();
 
@@ -89,6 +89,8 @@ export default function ProductCard() {
   }
 
   return (
+    <div>
+      <Sidebar/>
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-8 overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 gap-6 m-11 h-full w-[70vw] rounded-md">
         {products.map((item) => (
@@ -150,6 +152,7 @@ export default function ProductCard() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }
