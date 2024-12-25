@@ -17,8 +17,8 @@ const Navbar = ({ userName }) => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 to-gray-800 shadow-xl">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+    <nav className="fixed top-0 left-0 right-0 z-50 shadow-xl">
+      <div className="container py-3 flex justify-between items-center bg-gray-900">
         <div className="flex items-center space-x-4">
           <img
             src="/auction-logo.png"
@@ -35,7 +35,7 @@ const Navbar = ({ userName }) => {
             <input
               type="text"
               placeholder="Search auctions..."
-              className="pl-10 pr-4 py-2 rounded-full bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-blue-500 transition"
+              className="pl-10 pr-4 py-2 rounded-full bg-white text-gray-950 border border-gray-700 focus:ring-2 focus:ring-blue-500 transition"
             />
             <Search className="absolute left-3 top-3 text-gray-400" size={18} />
           </div>
@@ -267,7 +267,7 @@ const Home = () => {
   return (
     <>
       <Navbar userName="John Doe" />
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 pt-24 pb-10">
+      <div className="min-h-screen  pt-24 pb-10">
         <div className="container mx-auto px-6">
           <div className="flex justify-center space-x-6 mb-12">
             {["upcoming", "ongoing", "completed"].map((category) => (

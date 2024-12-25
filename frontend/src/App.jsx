@@ -47,6 +47,14 @@ function App() {
             }
           />
           <Route
+            path="/AuctionList/:auctionList"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <AuctionList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/Details/:auctionId"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -122,7 +130,7 @@ function App() {
             path="/UpdateCard/:productId"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <UpdateCard/>
+                <UpdateCard />
               </ProtectedRoute>
             }
           />

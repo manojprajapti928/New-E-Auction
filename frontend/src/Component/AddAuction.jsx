@@ -62,7 +62,7 @@ const AddAuction = () => {
 
   return (
     <div className="flex justify-center items-center h-[100vh] ">
-      <div className="text-center h-[50vh] w-[40vh] p-6  bg-slate-300 shadow-lg shadow-black rounded-lg">
+      <div className="text-center h-[60vh] w-[40vh] p-6  bg-slate-300 shadow-lg shadow-black rounded-lg">
         <h1 className="text-2xl font-bold text-blue-950 mb-6">Add Auction</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -125,7 +125,12 @@ const AddAuction = () => {
               required
             />
           </div>
-          <button type="submit" className="p-3 w-full bg-blue-600 rounded-md hover:bg-blue-700 active:bg-green-700 active:text-white">Add Auction</button>
+          <button
+            type="submit"
+            className="p-3 w-full bg-blue-600 rounded-md hover:bg-blue-700 active:bg-green-700 active:text-white"
+          >
+            Add Auction
+          </button>
         </form>
       </div>
     </div>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const AuctionList = () => {
+  const { auctionId } = useParams();
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -41,6 +43,29 @@ const AuctionList = () => {
   useEffect(() => {
     fetchAuctions();
   }, []);
+
+  const handleDelete = async (auctionId) => {
+    console.log("Attempting to delete Auction:", auctionId);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You are not authenticated. Please log in.");
+      return;
+    }
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/auction/delete/${auctionId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("Delete response:", response.data);
+      alert("Auction deleted successfully");
+      fetchAuctions(); // Refresh the product list after deletion
+    } catch (err) {
+      console.error("Error deleting auction:", err.response || err.message);
+      alert("Failed to delete the auction. Please try again.");
+    }
+  };
 
   // Update remaining time every second
   useEffect(() => {
@@ -116,6 +141,14 @@ const AuctionList = () => {
             >
               Time Left: {getTimeRemaining(timeRemaining[auction.id])}
             </p>
+            <div>
+              <button
+                onClick={() => handleDelete(auction.id)}
+                className="bg-red-600 px-9 py-3 mt-3 rounded-md text-white hover:bg-red-700 active:bg-green-700 active:text-black"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       ))
