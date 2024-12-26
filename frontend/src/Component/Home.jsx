@@ -17,8 +17,8 @@ const Navbar = ({ userName }) => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 shadow-xl">
-      <div className="container py-3 flex justify-between items-center bg-gray-900">
+    <nav className="fixed top-0 left-0 shadow-xl w-[100vw]">
+      <div className="container py-3 px-3 flex justify-between items-center bg-gray-900 w-[100vw]">
         <div className="flex items-center space-x-4">
           <img
             src="/auction-logo.png"
@@ -145,11 +145,11 @@ const Home = () => {
       auctions.map((auction) => (
         <div
           key={auction.id}
-          className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:border-blue-500/50"
+          className="rounded-2xl overflow-hidden border border-gray-300 shadow-md shadow-black transition-all duration-300 hover:scale-105 hover:border-blue-500"
         >
           <div className="relative">
             {auction.Product?.imageUrl ? (
-              <div className="relative group">
+              <div className="relative group bg-gray-300">
                 <img
                   src={auction.Product.imageUrl}
                   alt={auction.Product?.name || "Product Image"}
@@ -179,11 +179,11 @@ const Home = () => {
               </span>
             </div>
 
-            <p className="text-gray-300 text-sm line-clamp-2">
+            <p className="text-gray-500 text-sm line-clamp-2">
               {auction.description || "No description available"}
             </p>
 
-            <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
+            <div className="grid grid-cols-2 gap-2 text-xs text-gray-500">
               <div className="flex items-center">
                 <TrendingUp className="mr-2 w-4 h-4 text-green-400" />
                 <span>
