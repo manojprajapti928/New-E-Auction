@@ -2,9 +2,15 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Product = require("../models/Product");
 const Bid = require("../models/Bid");
-const { FORCE } = require("sequelize/lib/index-hints");
+
 
 const User = sequelize.define("User", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  }, 
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -55,10 +61,10 @@ const User = sequelize.define("User", {
 
 
 
-User.hasMany(Product, { foreignKey: "adminId" });
-Product.belongsTo(User, { foreignKey: "adminId" });
+User.hasMany(Product, { foreignKey: "adminId" ,onDelete: 'CASCADE', onUpdate: 'CASCADE'  });
+Product.belongsTo(User, { foreignKey: "adminId" , onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
-User.hasMany(Bid, { foreignKey: "userId" });
-Bid.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(Bid, { foreignKey: "userId" , onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Bid.belongsTo(User, { foreignKey: "userId", onDelete: 'CASCADE', onUpdate: 'CASCADE'  });
 
 module.exports = User;

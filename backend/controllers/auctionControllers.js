@@ -2,44 +2,37 @@ const cron = require("node-cron");
 const Auction = require("../models/Auction");
 const Product = require("../models/Product");
 const Bid = require("../models/Bid");
-const { Op } = require("sequelize"); 
+const { Op } = require("sequelize");
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 
 const moment = require("moment-timezone");
 
-
-
-
 exports.createAuction = async (req, res) => {
   const { productId, auctionStart, auctionEnd } = req.body;
 
   try {
-    
     const product = await Product.findByPk(productId);
 
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
 
-   
     const startTime = moment.tz(auctionStart, "Asia/Kolkata").toDate();
     const endTime = moment.tz(auctionEnd, "Asia/Kolkata").toDate();
     const now = moment().tz("Asia/Kolkata").toDate();
 
-      if (startTime >= endTime || startTime <= now) {
-        return res.status(400).json({ error: "Invalid auction dates provided." });
-      }
+    if (startTime >= endTime || startTime <= now) {
+      return res.status(400).json({ error: "Invalid auction dates provided." });
+    }
 
-   
-    let status = "upcoming"; 
+    let status = "upcoming";
     if (startTime <= now && now < endTime) {
-      status = "ongoing"; 
+      status = "ongoing";
     } else if (now >= endTime) {
       status = "completed";
     }
 
-   
     const auction = await Auction.create({
       productId,
       auctionStart: startTime,
@@ -47,21 +40,21 @@ exports.createAuction = async (req, res) => {
       status,
     });
 
-    console.log("Auction created:", auction);
-
-    cron.schedule(`${endTime.getSeconds()} ${endTime.getMinutes()} ${endTime.getHours()} ${endTime.getDate()} ${endTime.getMonth() + 1} *`, async () => {
-      console.log(`Auction ${auction.id} is ending...`);
-      await auction.update({ status: "completed" });
-    });
-
+    cron.schedule(
+      `${endTime.getSeconds()} ${endTime.getMinutes()} ${endTime.getHours()} ${endTime.getDate()} ${
+        endTime.getMonth() + 1
+      } *`,
+      async () => {
+        console.log(`Auction ${auction.id} is ending...`);
+        await auction.update({ status: "completed" });
+      }
+    );
 
     res.status(201).json({ message: "Auction created successfully", auction });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
-
 
 // Get All Auctions
 exports.getAuctions = async (req, res) => {
@@ -120,8 +113,8 @@ exports.updateAuctionStatuses = async () => {
       },
     }
   );
-};  
-
+};
+cron.schedule("* * * * *", exports.updateAuctionStatuses);
 
 // End Auction
 exports.endAuction = async (req, res) => {
@@ -129,30 +122,28 @@ exports.endAuction = async (req, res) => {
     const { auctionId } = req.params;
     const bids = await Bid.findAll({
       where: { auctionId },
-      include: [{ model: User, attributes: ["id", "username","email"] }],
+      include: [{ model: User, attributes: ["id", "username", "email"] }],
       order: [["amount", "DESC"]],
     });
 
     if (bids.length > 0) {
       const winningBid = bids[0];
 
-
       const product = await Product.findByPk(auctionId);
       product.soldTo = winningBid.User.id;
       await product.save();
 
       const transporter = nodemailer.createTransport({
-        service: "Gmail", 
+        service: "Gmail",
         auth: {
-          user: "manojprajapti928@gmail.com", 
-          pass: "pskt xmiz haep xkwt", 
+          user: "manojprajapti928@gmail.com",
+          pass: "pskt xmiz haep xkwt",
         },
       });
 
-
       const mailOptions = {
-        from: "manojprajapti928@gmail.com", 
-        to: winningBid.User.email, 
+        from: "manojprajapti928@gmail.com",
+        to: winningBid.User.email,
         subject: "Congratulations! You won the auction",
         text: `Dear ${winningBid.User.username},\n\nCongratulations! You have won the auction for the product "${product.name}" with a bid of $${winningBid.amount}.\n\nPlease contact us for further details.\n\nBest regards,\nAuction Team`,
       };

@@ -1,10 +1,15 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 // const Bid = require('./bid');
-const Category = require('./Category');
+
 
 const Product = sequelize.define('Product', {
- 
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  }, 
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -33,10 +38,8 @@ const Product = sequelize.define('Product', {
 
 
 
-// Product.hasMany(Bid, { foreignKey: 'productId' });
-// Bid.belongsTo(Product, { foreignKey: 'productId' });
 
-Product.belongsTo(Category, { foreignKey: 'categoryId' });
-Category.hasMany(Product, { foreignKey: 'categoryId' });
+
+
 
 module.exports = Product;

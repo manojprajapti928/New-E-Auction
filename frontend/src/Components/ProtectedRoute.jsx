@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const isAuthenticated = !!token; 
   if (!token) {
     alert('Session expired. Please sign in again.');
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   // console.log(isAuthenticated,"authent")
