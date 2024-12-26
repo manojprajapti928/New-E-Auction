@@ -57,13 +57,13 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-700">
+    <div className="flex justify-center items-center min-h-screen ">
       <form
-        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-gray-500"
+        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-slate-300"
         onSubmit={handleLogin}
       >
         <h2 className="text-2xl font-bold text-center text-blue-900 mb-6">
-          User Login
+        Login Form
         </h2>
 
         {/* Email Field */}
@@ -120,13 +120,13 @@ export default function LoginForm() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <button
+        {/* <button
           type="button"
           onClick={() => navigate("/AdminLogin")}
           className={`w-full py-2 px-4 rounded-md text-white transition duration-300 bg-blue-500 hover:bg-blue-600}`}
         >
           Admin Login
-        </button>
+        </button> */}
 
         {/* Registration Link */}
         <p className="text-center mt-4">

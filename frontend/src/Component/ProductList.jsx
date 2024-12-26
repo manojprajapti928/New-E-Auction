@@ -28,14 +28,14 @@ const ProductList = () => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 to-gray-700 text-white">
+    <div className="min-h-screen w-full text-white">
       {/* <div className="flex flex-col gap-6 justify-center w-full p-4 shadow-xl shadow-black"> */}
       {product.length > 0 ? (
         <div className="overflow-x-auto shadow-lg shadow-black rounded-lg m-3">
-          <h1 className="text-center text-xl m-1">Product Table</h1>
-          <table className="min-w-full border-collapse border border-gray-400 bg-gray-300 text-black text-center">
+          <h1 className="text-center text-xl m-1 text-black bg-slate-300">Product Table</h1>
+          <table className="min-w-full border-collapse border border-gray-400 bg-slate-300 text-black text-center">
             <thead className="text-center">
-              <tr className="bg-gray-700 text-white text-center">
+              <tr className="bg-blue-700 text-white text-center">
                 <th className="border border-gray-500 px-4 py-2">S.No.</th>
                 <th className="border border-gray-500 px-4 py-2">
                   Product Name
@@ -52,7 +52,7 @@ const ProductList = () => {
                 <th className="border border-gray-500 px-4 py-2">
                   Auction End
                 </th>
-                <th className="border border-gray-500 px-4 py-2">Image URL</th>
+                {/* <th className="border border-gray-500 px-4 py-2">Image URL</th> */}
               </tr>
             </thead>
             <tbody>
@@ -79,9 +79,9 @@ const ProductList = () => {
                   <td className="border border-gray-500 px-4 py-2">
                     {product.auctionEnd || "N/A"}
                   </td>
-                  <td className="border border-gray-500 px-4 py-2">
+                  {/* <td className="border border-gray-500 px-4 py-2">
                     {product.imageUrl || "N/A"}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

@@ -113,21 +113,21 @@ const Details = () => {
     }
   };
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-700 text-white">
-        <div className="bg-red-600/20 p-8 rounded-xl border border-red-500 flex items-center">
-          <p className="mr-4">{error}</p>
-          <button
-            onClick={() => navigate("/Home")}
-            className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
-          >
-            Go Back
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-700 text-white">
+  //       <div className="bg-red-600/20 p-8 rounded-xl border border-red-500 flex items-center">
+  //         <p className="mr-4">{error}</p>
+  //         <button
+  //           onClick={() => navigate("/Home")}
+  //           className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+  //         >
+  //           Go Back
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (!auction) {
     return (
@@ -138,16 +138,16 @@ const Details = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 pt-24 pb-10">
+    <div className="min-h-screen pt-24 pb-10">
       <div className="container mx-auto px-4 text-white">
         <div className="grid md:grid-cols-2 gap-10">
           <div className="relative group">
-            <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <div className="w-[45homvw] rounded-2xl overflow-hidden shadow-2xl">
               {auction.Product?.imageUrl ? (
                 <img
                   src={auction.Product.imageUrl}
                   alt={auction.Product.name}
-                  className="w-[27vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-[45vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
                 <div className="h-[500px] bg-gray-800 flex items-center justify-center">
@@ -163,13 +163,13 @@ const Details = () => {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 bg-blue-500 rounded-md p-3">
             <h1 className="text-4xl font-bold mb-3">{auction.Product?.name}</h1>
             <p className="text-gray-300 text-lg">
               {auction.Product?.description}
             </p>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-gray-800 p-5 rounded-xl space-y-2">
+              <div className="bg-white text-black p-5 rounded-xl space-y-2">
                 <div className="flex items-center space-x-3">
                   <Tag className="text-green-400" />
                   <h3 className="font-semibold">Starting Price</h3>
@@ -179,7 +179,7 @@ const Details = () => {
                 </p>
               </div>
 
-              <div className="bg-gray-800 p-5 rounded-xl space-y-2">
+              <div className="bg-white text-black p-5 rounded-xl space-y-2">
                 <div className="flex items-center space-x-3">
                   <Award className="text-yellow-400" />
                   <h3 className="font-semibold">Highest Bid</h3>
@@ -190,7 +190,7 @@ const Details = () => {
               </div>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-xl space-y-4">
+            <div className="bg-white text-black p-6 rounded-xl space-y-4">
               <div className="flex items-center space-x-3">
                 <TrendingUp className="text-green-400" />
                 <span className="font-semibold">
@@ -207,12 +207,12 @@ const Details = () => {
               </div>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-xl space-y-4">
+            <div className="bg-white text-black p-6 rounded-xl space-y-4">
               <div className="relative">
                 <input
                   type="number"
                   placeholder="Enter your bid amount"
-                  className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-blue-100 text-black border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={bidAmount}
                   onChange={(e) => setBidAmount(e.target.value)}
                 />
@@ -223,7 +223,7 @@ const Details = () => {
                 className={`w-full ${
                   timeLeft <= 0
                     ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600"
+                    : "bg-blue-500 hover:bg-blue-600 active:to-green-700"
                 } text-white font-bold py-2 px-4 rounded-lg transition duration-300`}
               >
                 {timeLeft <= 0 ? "Auction Ended" : "Place Bid"}
@@ -231,14 +231,14 @@ const Details = () => {
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-xl space-y-4">
+            <div className="bg-white text-black p-6 rounded-xl space-y-4">
               <h2 className="text-xl font-bold">Bid History</h2>
               {bidHistory.length > 0 ? (
                 <ul className="space-y-3 max-h-40 overflow-y-auto">
                   {bidHistory.map((bid, index) => (
                     <li
                       key={index}
-                      className="flex justify-between items-center bg-gray-900 p-3 rounded-lg"
+                      className="flex justify-between items-center bg-blue-600 text-white p-3 rounded-lg"
                     >
                       <span className="font-semibold">
                         {bid.User.username || "Unknown"}

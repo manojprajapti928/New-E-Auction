@@ -14,7 +14,7 @@ export default function Registration() {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const ghandleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setError(""); // Clear errors on input change
@@ -29,7 +29,7 @@ export default function Registration() {
     //   !formData.username ||
     //   !formData.email ||
     //   !formData.password ||
-      
+
     // ) {
     //   setError("All fields are required.");
     //   return;
@@ -54,14 +54,15 @@ export default function Registration() {
       setError(
         err.response?.data?.error || "Registration failed. Please try again."
       );
-    }okk
+    }
+    okk;
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-700">
+    <div className="flex justify-center items-center min-h-screen ">
       <form
         onSubmit={handleSubmit}
-        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-gray-500"
+        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-slate-300"
       >
         <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
           Registration Form
@@ -123,7 +124,7 @@ export default function Registration() {
         </div> */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 active:bg-green-700"
         >
           Submit
         </button>

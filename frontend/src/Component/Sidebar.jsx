@@ -27,21 +27,21 @@ const Sidebar = ({ isOpen }) => {
   return (
     <motion.div
       initial={{ width: "250px" }}
-      animate={{ width: isOpen ? "250px" : "80px" }}
+      animate={{ width: isOpen ? "250px" : "60px" }}
       transition={{ duration: 0.3 }}
-      className="h-screen bg-blue-500 text-white shadow-md fixed top-0 left-0 z-40 flex flex-col"
+      className="h-screen bg-blue-600 text-white shadow-md fixed top-0 left-0 z-40 flex flex-col"
     >
       {/* Logo/Title */}
-      <div className="text-center py-6 border-b border-gray-700">
+      <div className="text-center py-6">
         {isOpen && (
-          <h1 className="text-xl font-bold text-transparent bg-clip-text bg-white">
+          <h1 className="text-xl font-bold text-transparent flex justify-start bg-clip-text bg-white">
             Admin Hub
           </h1>
         )}
       </div>
 
       {/* Navigation Links */}
-      <nav className="mt-6 flex flex-col space-y-1">
+      <nav className="mt-3 flex flex-col space-y-1">
         {sidebarLinks.map((link) => (
           <Link
             key={link.path}
@@ -63,11 +63,11 @@ const Sidebar = ({ isOpen }) => {
           <FaCog className="text-lg" />
           {isOpen && <span className="ml-4">Settings</span>}
         </Link>
-        <div className="flex items-center p-4 hover:bg-red-500/20 transition-all cursor-pointer">
-          <FaSignOutAlt className="text-lg text-red-400" />
+        <div className="flex items-center p-4 transition-all cursor-pointer">
+          <FaSignOutAlt className="text-lg text-red-600" />
           {isOpen && (
             <button
-              className="p-2 ml-4 bg-red-600 text-white rounded-md transition-all"
+              className="p-2 ml-4 bg-red-700 text-white hover:bg-red-600 active:bg-red-800 rounded-md transition-all"
               onClick={() => {
                 localStorage.removeItem("token");
                 window.location.href = "/";

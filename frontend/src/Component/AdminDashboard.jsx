@@ -16,23 +16,22 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div
         className={`flex-1 flex flex-col transition-all duration-300 font-bold ${
-          isSidebarOpen ? "ml-[250px]" : "ml-[80px]"
+          isSidebarOpen ? "ml-[250px]" : "ml-[60px]"
         }`}
       >
         {/* Toggle Button */}
         <button
-        
           onClick={toggleSidebar}
-          className="fixed top-4  bg-white text-blue-700 hover:scale-110 p-3 rounded-full shadow-md "
+          className="fixed top-4  bg-white text-blue-700 hover:scale-110 p-3 rounded-full shadow-md flex items-start"
           style={{
-            left: isSidebarOpen ? "270px" : "90px", // Adjust button position based on sidebar state
+            left: isSidebarOpen ? "270px" : "100px", // Adjust button position based on sidebar state
           }}
         >
           {isSidebarOpen ? "<" : ">"}
         </button>
 
         {/* Top Navigation Bar */}
-        <nav className="bg-blue-500 text-white p-[1.1rem] flex justify-between items-center shadow-md border-b border-black">
+        <nav className="bg-blue-600 text-white p-[17px] flex justify-between items-center shadow-md border-b border-black">
           <h1 className="text-xl font-bold">Admin Dashboard</h1>
           {/* <button
             className="p-2 bg-red-600 text-white rounded-md"

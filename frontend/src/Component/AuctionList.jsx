@@ -104,50 +104,52 @@ const AuctionList = () => {
           key={auction.id}
           className="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform"
         >
-          <div className="p-4">
+          <div className="p-4 bg-slate-100">
             {auction.Product?.imageUrl && (
               <img
                 src={auction.Product.imageUrl}
                 alt={auction.Product?.name || "Product Image"}
-                className="w-full h-64 object-cover mt-4 rounded-md"
+                className="object-cover mt-4 rounded-md bg-gray-500"
               />
             )}
-            <h2 className="text-lg font-bold text-gray-900">
-              {auction.Product?.name || "No Name Available"}
-            </h2>
-            <p className="text-gray-600 mt-2">
-              {auction.description || "No description available"}
-            </p>
-            <p className="mt-2 text-sm text-gray-500">
-              <span className="font-bold">Starting Price:</span> ₹
-              {auction.Product?.startingPrice || "N/A"}
-            </p>
-            <p className="text-sm text-gray-500">
-              <span className="font-bold">Auction Start:</span>{" "}
-              {new Date(auction.auctionStart).toLocaleString()}
-            </p>
-            <p className="text-sm text-gray-500">
-              <span className="font-bold">Auction End:</span>{" "}
-              {new Date(auction.auctionEnd).toLocaleString()}
-            </p>
-
-            {/* Display live countdown timer */}
-            <p
-              className={`mt-4 font-bold ${
-                timeRemaining[auction.id] > 0
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              Time Left: {getTimeRemaining(timeRemaining[auction.id])}
-            </p>
             <div>
-              <button
-                onClick={() => handleDelete(auction.id)}
-                className="bg-red-600 px-9 py-3 mt-3 rounded-md text-white hover:bg-red-700 active:bg-green-700 active:text-black"
+              <h2 className="text-lg font-bold text-gray-900">
+                {auction.Product?.name || "No Name Available"}
+              </h2>
+              <p className="text-gray-600 mt-2">
+                {auction.description || "No description available"}
+              </p>
+              <p className="mt-2 text-sm text-gray-900">
+                <span className="font-bold">Starting Price:</span> ₹
+                {auction.Product?.startingPrice || "N/A"}
+              </p>
+              <p className="text-sm text-gray-900">
+                <span className="font-bold">Auction Start:</span>{" "}
+                {new Date(auction.auctionStart).toLocaleString()}
+              </p>
+              <p className="text-sm text-gray-500">
+                <span className="font-bold">Auction End:</span>{" "}
+                {new Date(auction.auctionEnd).toLocaleString()}
+              </p>
+
+              {/* Display live countdown timer */}
+              <p
+                className={`mt-4 font-bold ${
+                  timeRemaining[auction.id] > 0
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
               >
-                Delete
-              </button>
+                Time Left: {getTimeRemaining(timeRemaining[auction.id])}
+              </p>
+              <div>
+                <button
+                  onClick={() => handleDelete(auction.id)}
+                  className="bg-red-600 px-9 py-3 mt-3 rounded-md text-white hover:bg-red-700 active:bg-green-700 active:text-black"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -182,7 +184,7 @@ const AuctionList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-10">
+    <div className="min-h-screen py-10">
       <div className="container mx-auto">
         <div className="flex justify-center space-x-4 mb-6">
           <button

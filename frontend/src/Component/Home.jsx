@@ -17,11 +17,11 @@ const Navbar = ({ userName }) => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed top-0 left-0 shadow-xl w-[100vw]">
-      <div className="container py-3 px-3 flex justify-between items-center bg-gray-900 w-[100vw]">
+    <nav className="top-0 left-0 shadow-xl">
+      <div className="container py-3 px-3 flex justify-between items-center bg-gray-900">
         <div className="flex items-center space-x-4">
           <img
-            src="/auction-logo.png"
+            src=""
             alt="Auction House Logo"
             className="h-12 w-12 rounded-full ring-4 ring-blue-500/50 hover:scale-110 transition"
           />
@@ -155,6 +155,7 @@ const Home = () => {
                   alt={auction.Product?.name || "Product Image"}
                   className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                {/* Timing */}
                 <div className="absolute top-4 right-4 bg-black/70 text-white px-4 py-2 rounded-full flex items-center">
                   <Timer className="mr-2 w-5 h-5 text-blue-400" />
                   <span className="text-sm font-semibold">
@@ -169,21 +170,21 @@ const Home = () => {
             )}
           </div>
 
-          <div className="p-6 space-y-4 text-white">
+          <div className="p-6 space-y-4 bg-blue-500 text-white">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold truncate pr-4">
                 {auction.Product?.name || "No Name Available"}
               </h2>
-              <span className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-full">
+              <span className="text-sm font-medium bg-white text-black px-4 py-2 rounded-full">
                 ₹{auction.Product?.startingPrice || "N/A"}
               </span>
             </div>
 
-            <p className="text-gray-500 text-sm line-clamp-2">
+            <p className="text-gray-700 text-sm line-clamp-2">
               {auction.description || "No description available"}
             </p>
 
-            <div className="grid grid-cols-2 gap-2 text-xs text-gray-500">
+            <div className="grid grid-cols-2 gap-2 text-xs text-white">
               <div className="flex items-center">
                 <TrendingUp className="mr-2 w-4 h-4 text-green-400" />
                 <span>
@@ -200,14 +201,21 @@ const Home = () => {
 
             <div className="pt-4 border-t border-white/20">
               <button
-                onClick={() => navigate(`/details/${auction.id}`)}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 rounded-lg 
-                hover:from-blue-700 hover:to-blue-900 
-                transition duration-300 
-                transform hover:scale-105 
-                flex items-center justify-center 
-                space-x-2 
-                group"
+                onClick={() => {
+                  if (new Date(auction.auctionStart) > new Date()) {
+                    alert(
+                      "This auction is not available. You cannot apply a bid on it yet."
+                    );
+                  } else {
+                    navigate(`/details/${auction.id}`);
+                  }
+                }}
+                disabled={new Date(auction.auctionStart) > new Date()}
+                className={`w-full py-3 rounded-lg flex items-center justify-center space-x-2 group transition ${
+                  new Date(auction.auctionStart) > new Date()
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-700 hover:bg-blue-800 transform hover:scale-105"
+                }`}
               >
                 <span>View Auction Details</span>
                 <svg
