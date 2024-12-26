@@ -1,36 +1,41 @@
-const Bid = require('../models/Bid');
-const Product = require('../models/Product');
-const Auction = require('../models/Auction')
-const User = require('../models/User');
+const Bid = require("../models/Bid");
+const Product = require("../models/Product");
+const Auction = require("../models/Auction");
+const User = require("../models/User");
 
 // const {io} = require('../server')
 
 // Place a bid
 exports.placeBid = async (req, res) => {
-  const { auctionId, bidAmount } = req.body;
-  console.log(req.body,"body")
-
-  console.log(auctionId,bidAmount,"bidAmount")
-
   try {
-    const auction = await Auction.findByPk(auctionId);
-    console.log(auction,"auctionId")
+    const { auctionId, bidAmount } = req.body;
 
+    const auction = await Auction.findByPk(auctionId);
     if (!auction) {
-      return res.status(404).json({ error: 'Auction not found' });
+      return res.status(404).json({ error: "Auction not found" });
+    }
+
+    if (auction.status !== "ongoing") {
+      return res.status(400).json({
+        error: "Bids can only be placed during an ongoing auction.",
+      });
     }
 
     const product = await Product.findByPk(auction.productId);
     if (!product) {
       return res.status(404).json({ error: "Associated product not found" });
     }
-  
+
+    if (bidAmount <= product.startingPrice) {
+      return res.status(400).json({
+        error: `Bid amount must be greater than or equal to the product price of ${product.startingPrice}`,
+      });
+    }
 
     const highestBid = await Bid.findOne({
       where: { auctionId },
-      order: [['amount', 'DESC']],
+      order: [["amount", "DESC"]],
     });
-    console.log(highestBid,"highestBid")
 
     if (highestBid && bidAmount <= highestBid.amount) {
       return res.status(400).json({
@@ -41,16 +46,16 @@ exports.placeBid = async (req, res) => {
     const bid = await Bid.create({
       userId: req.user.userId,
       auctionId,
+      productId: product.id,
       amount: bidAmount,
     });
 
-    console.log(bid,"bid")
     const user = await User.findByPk(req.user.userId, {
-      attributes: ['username', 'email'],
+      attributes: ["username", "email"],
     });
 
     res.status(201).json({
-      message: 'Bid placed',
+      message: "Bid placed",
       bid: {
         amount: bid.amount,
         username: user.username,
@@ -59,56 +64,50 @@ exports.placeBid = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
-    console.log(error.message)
+    console.log(error.message);
   }
 };
 
+exports.getAllBids = async (req, res) => {
+  try {
+    const bids = await Bid.findAll({
+      where: { auctionId: req.params.auctionId },
+      include: [
+        { model: User, attributes: ["username"] },
+        { model: Product, attributes: ["name"] },
+      ],
+      order: [["amount", "DESC"]],
+    });
 
-  // const { Bid, User, Product } = require("../models");
+    const highestBid = bids.length > 0 ? bids[0] : null;
 
-  exports.getAllBids = async (req, res) => {
-    try {
-      const bids = await Bid.findAll({
-        where: { auctionId: req.params.auctionId },
-        include: [
-          { model: User, attributes: ['username'] },
-          { model: Product, attributes: ['name'] },
-        ],
-        order: [['amount', 'DESC']],
-      });
-  
-      const highestBid = bids.length > 0 ? bids[0] : null;
-  
-      res.status(200).json({ message: "All bids retrieved", bids, highestBid });
-    } catch (error) {
-      console.error("Error retrieving bids:", error);
-      res.status(500).json({ error: error.message });
+    res.status(200).json({ message: "All bids retrieved", bids, highestBid });
+  } catch (error) {
+    console.error("Error retrieving bids:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Delete a bid (Admin only)
+exports.deleteBid = async (req, res) => {
+  const { bidId } = req.params;
+
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ error: "Access denied" });
     }
-  };
-  
-  
-  
-  
-  // Delete a bid (Admin only)
-  exports.deleteBid = async (req, res) => {
-    const { bidId } = req.params;
-  
-    try {
-      if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Access denied' });
-      }
-  
-      const bid = await Bid.findByPk(bidId);
-  
-      if (!bid) {
-        return res.status(404).json({ error: 'Bid not found' });
-      }
-  
-      await bid.destroy();
 
-      // io.emit('bidDeleted', { bidId });
-      res.status(200).json({ message: 'Bid deleted successfully' });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    const bid = await Bid.findByPk(bidId);
+
+    if (!bid) {
+      return res.status(404).json({ error: "Bid not found" });
     }
-  };
+
+    await bid.destroy();
+
+    // io.emit('bidDeleted', { bidId });
+    res.status(200).json({ message: "Bid deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

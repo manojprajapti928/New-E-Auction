@@ -17,18 +17,6 @@ exports.register = async (req, res) => {
     country,
     contactNo,
   } = req.body;
-  console.log(
-    username,
-    email,
-    password,
-    role,
-    address,
-    city,
-    state,
-    country,
-    contactNo,
-    "body"
-  );
 
   try {
     const existingUser = await User.findOne({ where: { email } });
@@ -37,17 +25,9 @@ exports.register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const imageUrl = req.file ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}` : null;
-    console.log(imageUrl,"profilePic");
-
-    // const imageUrl = req.files.imageUrl
-    // ? `${req.protocol}://${req.get("host")}/uploads/${req.files.imageUrl[0].filename}`
-    // : null;
-  
-  // const profilePic = req.files.profilePic
-  //   ? `${req.protocol}://${req.get("host")}/uploads/${req.files.profilePic.filename}`
-  //   : null;
-    
+    const imageUrl = req.file
+      ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
+      : null;
 
     const user = await User.create({
       username,
@@ -61,7 +41,6 @@ exports.register = async (req, res) => {
       country,
       contactNo,
     });
-    console.log(user, "created");
 
     res.status(201).json({
       message: "User registered",
@@ -96,7 +75,7 @@ exports.login = async (req, res) => {
       { expiresIn: "1h" }
     );
     const role = user.role;
-    // console.log('Token generated:', token, role);
+    
 
     res.status(200).json({ message: "Login successful", token, role });
   } catch (error) {
@@ -109,7 +88,7 @@ exports.login = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ["id", "username", "email", "role","imageUrl"],
+      attributes: ["id", "username", "email", "role", "imageUrl"],
     });
     res.status(200).json(users);
   } catch (error) {
