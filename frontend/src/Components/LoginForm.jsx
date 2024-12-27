@@ -1,9 +1,7 @@
-
-
-
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import auctionLogo from "../assets/Auction.png"; // Add your auction logo here
+import bgImage from "../assets/little.jpg"; // Background image for the form
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -52,20 +50,24 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-700">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center overflow-hidden "
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <form
-        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-gray-500"
+        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-white bg-opacity-90 relative"
         onSubmit={handleLogin}
       >
+        <div className="flex justify-center mb-6">
+          <img src={auctionLogo} alt="E-Auction Logo" className="w-30 h-20" />
+        </div>
+
         <h2 className="text-2xl font-bold text-center text-blue-900 mb-6">
           User Login
         </h2>
 
         <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-gray-900 font-medium mb-2"
-          >
+          <label htmlFor="email" className="block text-gray-900 font-medium mb-2">
             Email
           </label>
           <input
@@ -80,10 +82,7 @@ export default function LoginForm() {
         </div>
 
         <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-gray-900 font-medium mb-2"
-          >
+          <label htmlFor="password" className="block text-gray-900 font-medium mb-2">
             Password
           </label>
           <input
@@ -120,4 +119,3 @@ export default function LoginForm() {
     </div>
   );
 }
-
