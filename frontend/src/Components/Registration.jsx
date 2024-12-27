@@ -5,12 +5,10 @@ import axios from "axios";
 export default function Registration() {
   const navigate = useNavigate();
 
-  // Initial state for form fields
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-   
     address: "",
     city: "",
     state: "",
@@ -22,27 +20,23 @@ export default function Registration() {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Handle input changes (including file input)
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "file" ? files[0] : value,
     }));
-    setError("");  // Clear error on change
+    setError("");
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Validation for all fields (including image)
     if (
       !formData.username ||
       !formData.email ||
       !formData.password ||
-    
       !formData.address ||
       !formData.city ||
       !formData.state ||
@@ -54,7 +48,6 @@ export default function Registration() {
       return;
     }
 
-    // Prepare FormData for file upload
     const formDataToSend = new FormData();
     for (let key in formData) {
       formDataToSend.append(key, formData[key]);
@@ -66,7 +59,6 @@ export default function Registration() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response,"datttttttttttta");
 
       if (response.status === 201) {
         setSuccessMessage("Registration successful! Redirecting to login...");
@@ -86,13 +78,12 @@ export default function Registration() {
         <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
           Registration Form
         </h2>
-        
+
         {error && <p className="text-red-500 text-center">{error}</p>}
         {successMessage && (
           <p className="text-green-500 text-center">{successMessage}</p>
         )}
 
-        {/* Username */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">
             Username
@@ -107,7 +98,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* Email */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">Email</label>
           <input
@@ -120,7 +110,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* Password */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">
             Password
@@ -136,8 +125,6 @@ export default function Registration() {
           />
         </div>
 
-
-        {/* Address */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">Address</label>
           <input
@@ -150,7 +137,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* City */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">City</label>
           <input
@@ -163,7 +149,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* State */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">State</label>
           <input
@@ -176,7 +161,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* Country */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">Country</label>
           <input
@@ -189,7 +173,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* Contact Number */}
         <div className="mb-4">
           <label className="block text-gray-900 font-medium mb-2">
             Contact Number
@@ -204,7 +187,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* Image Upload */}
         <div className="mb-4">
           <label className="block text-lg font-medium text-gray-900">
             Upload Image
@@ -218,7 +200,6 @@ export default function Registration() {
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"

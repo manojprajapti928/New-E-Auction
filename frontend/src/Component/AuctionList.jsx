@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Sidebar from "./Sidebar";
 
 const AuctionList = () => {
   const [auctions, setAuctions] = useState([]);
@@ -149,6 +150,8 @@ const AuctionList = () => {
   }
 
   return (
+    <div>
+      <Sidebar/>
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-10">
       <div className="container mx-auto">
         <div className="flex justify-center space-x-4 mb-6">
@@ -197,6 +200,7 @@ const AuctionList = () => {
             )}
         </div>
       </div>
+    </div>
     </div>
   );
 };
