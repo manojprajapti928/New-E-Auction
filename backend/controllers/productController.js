@@ -2,18 +2,18 @@ const Product = require("../models/Product");
 
 // Create product (admin only)
 exports.createProduct = async (req, res) => {
-  const { id, name, description, startingPrice, auctionStart, auctionEnd } =
+  const { id, name, description, startingPrice, } =
     req.body;
 
   try {
-    const startTime = new Date(auctionStart);
-    const endTime = new Date(auctionEnd);
+  //   const startTime = new Date(auctionStart);
+  //   const endTime = new Date(auctionEnd);
 
-    if (startTime >= endTime) {
-      return res
-        .status(400)
-        .json({ error: "Auction end time must be after start time." });
-    }
+    // if (startTime >= endTime) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "Auction end time must be after start time." });
+    // }
     const imageUrl = req.file
       ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
       : null;
@@ -23,8 +23,8 @@ exports.createProduct = async (req, res) => {
       name,
       description,
       startingPrice,
-      auctionStart: startTime,
-      auctionEnd: endTime,
+      // auctionStart: startTime,
+      // auctionEnd: endTime,
       imageUrl,
     });
 

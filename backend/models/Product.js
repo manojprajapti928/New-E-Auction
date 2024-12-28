@@ -22,17 +22,21 @@ const Product = sequelize.define('Product', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  auctionStart: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  auctionEnd: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
+  // auctionStart: {
+  //   type: DataTypes.DATE,
+  //   allowNull: false,
+  // },
+  // auctionEnd: {
+  //   type: DataTypes.DATE,
+  //   allowNull: false,
+  // },
   imageUrl: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  status: {
+    type: DataTypes.ENUM("pending", "sold", "unsold"),
+    defaultValue: "unsold",
   },
 });
 
