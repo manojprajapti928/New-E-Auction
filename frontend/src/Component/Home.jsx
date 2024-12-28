@@ -17,16 +17,16 @@ const Navbar = ({ userName }) => {
   const navigate = useNavigate();
 
   return (
-    <nav className="top-0 left-0 shadow-xl">
-      <div className="container py-3 px-3 flex justify-between items-center bg-gray-900">
-        <div className="flex items-center space-x-4">
+    <nav className="top-0 left-0 shadow-x">
+      <div className="container py-3 px-3 flex justify-between items-center bg-blue-700">
+        <div className="flex items-center  space-x-4">
           <img
-            src=""
+            src="../Images/car1.webp"
             alt="Auction House Logo"
-            className="h-12 w-12 rounded-full ring-4 ring-blue-500/50 hover:scale-110 transition"
+            className="h-12 w-12 rounded-full ring-4 ring-blue-500/50 hover:scale-110 transition bg-white"
           />
           <h1 className="text-white text-2xl font-extrabold tracking-tight">
-            Auction <span className="text-blue-500">Hub</span>
+            Auction <span className="text-gray-800">Hub</span>
           </h1>
         </div>
 
@@ -56,7 +56,7 @@ const Navbar = ({ userName }) => {
             </button>
 
             <div className="flex items-center space-x-3">
-              <div className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
+              <div className="bg-white text-black px-4 py-2 rounded-full text-sm font-medium shadow-md">
                 {userName}
               </div>
               <button
@@ -64,7 +64,7 @@ const Navbar = ({ userName }) => {
                   localStorage.removeItem("token");
                   navigate("/");
                 }}
-                className="text-red-500 hover:bg-red-50 p-2 rounded-full transition"
+                className="bg-red-700 text-white hover:bg-white hover:text-red-700 p-2 rounded-full transition"
               >
                 <LogOut />
               </button>
@@ -170,7 +170,7 @@ const Home = () => {
             )}
           </div>
 
-          <div className="p-6 space-y-4 bg-blue-500 text-white">
+          <div className="p-6 space-y-4 bg-slate-300 text-black">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold truncate pr-4">
                 {auction.Product?.name || "No Name Available"}
@@ -184,7 +184,7 @@ const Home = () => {
               {auction.description || "No description available"}
             </p>
 
-            <div className="grid grid-cols-2 gap-2 text-xs text-white">
+            <div className="grid grid-cols-2 gap-2 text-xs text-black">
               <div className="flex items-center">
                 <TrendingUp className="mr-2 w-4 h-4 text-green-400" />
                 <span>
@@ -331,6 +331,7 @@ const Home = () => {
               renderAuctions(
                 auctions.filter((a) => new Date(a.auctionEnd) <= new Date())
               )}
+              
           </div>
         </div>
       </div>

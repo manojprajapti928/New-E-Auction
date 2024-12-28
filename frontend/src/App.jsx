@@ -18,6 +18,7 @@ import BidDetail from "./Component/bidDetail";
 import ProductCard from "./Component/ProductCard";
 import AddAuction from "./Component/AddAuction";
 import UpdateCard from "./Component/UpdateCard";
+import WinnerDetails from "./Component/WinnerDetails";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -131,6 +132,14 @@ function App() {
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <UpdateCard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/WinnerDetails"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <WinnerDetails/>
               </ProtectedRoute>
             }
           />

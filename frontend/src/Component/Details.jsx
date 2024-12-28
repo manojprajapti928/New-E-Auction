@@ -142,7 +142,7 @@ const Details = () => {
       <div className="container mx-auto px-4 text-white">
         <div className="grid md:grid-cols-2 gap-10">
           <div className="relative group">
-            <div className="w-[45homvw] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="w-[45vw] rounded-2xl overflow-hidden shadow-2xl">
               {auction.Product?.imageUrl ? (
                 <img
                   src={auction.Product.imageUrl}

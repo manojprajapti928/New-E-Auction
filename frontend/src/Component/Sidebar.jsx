@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen }) => {
       {/* Logo/Title */}
       <div className="text-center py-6">
         {isOpen && (
-          <h1 className="text-xl font-bold text-transparent flex justify-start bg-clip-text bg-white">
+          <h1 className="text-xl font-bold text-transparent flex justify-start bg-clip-text bg-white pl-3">
             Admin Hub
           </h1>
         )}
