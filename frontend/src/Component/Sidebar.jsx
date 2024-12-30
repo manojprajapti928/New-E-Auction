@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, toggleSidebar }) => {
   const sidebarLinks = [
     { name: "User List", icon: <FaUser />, path: "/UserList" },
     { name: "Add Product", icon: <FaPlus />, path: "/AddProduct" },
@@ -31,6 +31,14 @@ const Sidebar = ({ isOpen }) => {
       transition={{ duration: 0.3 }}
       className="h-screen bg-blue-600 text-white shadow-md fixed top-0 left-0 z-40 flex flex-col"
     >
+      {/* Toggle Button */}
+      <button
+        onClick={toggleSidebar}
+        className="absolute top-4 left-4 bg-white text-blue-700 hover:scale-110 p-2 rounded-full shadow-md flex items-center justify-center"
+      >
+        {isOpen ? "<" : ">"}
+      </button>
+
       {/* Logo/Title */}
       <div className="text-center py-6">
         {isOpen && (
