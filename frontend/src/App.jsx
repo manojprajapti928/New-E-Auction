@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
+import Navbar from "./Component/Navbar";
 import Home from "./Component/Home";
 import Details from "./Component/Details";
 import Registration from "./Components/Registration";
@@ -18,6 +19,7 @@ import BidDetail from "./Component/bidDetail";
 import ProductCard from "./Component/ProductCard";
 import AddAuction from "./Component/AddAuction";
 import UpdateCard from "./Component/UpdateCard";
+import WinnerDetails from "./Component/WinnerDetails";
 
 
 function App() {
@@ -43,10 +45,26 @@ function App() {
 
           {/* Protected routes */}
           <Route
+            path="/Navbar"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Navbar/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/Home"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/AuctionList/:auctionList"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <AuctionList />
               </ProtectedRoute>
             }
           />
@@ -126,7 +144,15 @@ function App() {
             path="/UpdateCard/:productId"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <UpdateCard/>
+                <UpdateCard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/WinnerDetails/:auctionId"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <WinnerDetails />
               </ProtectedRoute>
             }
           />

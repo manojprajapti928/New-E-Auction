@@ -11,27 +11,19 @@ export default function AdminDashboard() {
   return (
     <div className="flex h-screen bg-gray-100 relative">
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       {/* Main Content */}
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          isSidebarOpen ? "ml-[250px]" : "ml-[80px]"
+        className={`flex-1 flex flex-col transition-all duration-300 font-bold ${
+          isSidebarOpen ? "ml-[250px]" : "ml-[60px]"
         }`}
       >
-        {/* Toggle Button */}
-        <button
-          onClick={toggleSidebar}
-          className="fixed top-4 left-4 bg-blue-500 text-white p-3 rounded-full shadow-md z-50"
-        >
-          {isSidebarOpen ? "<" : ">"}
-        </button>
-
         {/* Top Navigation Bar */}
-        <nav className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center shadow-md">
+        <nav className="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md border-b border-black">
           <h1 className="text-xl font-bold">Admin Dashboard</h1>
           <button
-            className="p-2 bg-red-600 text-white rounded-md hover:bg-red-500 transition-all"
+            className="p-2 bg-red-600 text-white rounded-md"
             onClick={() => {
               localStorage.removeItem("token");
               window.location.href = "/";

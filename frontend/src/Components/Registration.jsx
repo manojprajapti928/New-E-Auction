@@ -253,6 +253,7 @@ export default function Registration() {
     e.preventDefault();
     setError("");
 
+<<<<<<< HEAD
     // Validation for all fields (including image)
     if (
       !formData.username ||
@@ -275,6 +276,22 @@ export default function Registration() {
     for (let key in formData) {
       formDataToSend.append(key, formData[key]);
     }
+=======
+    // Validation
+    // if (
+    //   !formData.username ||
+    //   !formData.email ||
+    //   !formData.password ||
+
+    // ) {
+    //   setError("All fields are required.");
+    //   return;
+    // }
+    // if (formData.password !== formData.confirmPassword) {
+    //   setError("Passwords do not match.");
+    //   return;
+    // }
+>>>>>>> aaisha
 
     try {
       const response = await axios.post("http://localhost:3001/api/register", formDataToSend, {
@@ -289,6 +306,7 @@ export default function Registration() {
         setTimeout(() => navigate("/"), 3000);
       }
     } catch (err) {
+<<<<<<< HEAD
       setError(err.response?.data?.error || "Registration failed. Please try again.");
     }
   };
@@ -299,6 +317,20 @@ export default function Registration() {
       <form
         onSubmit={handleSubmit}
         className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-md bg-gray-500"
+=======
+      setError(
+        err.response?.data?.error || "Registration failed. Please try again."
+      );
+    }
+    okk;
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen ">
+      <form
+        onSubmit={handleSubmit}
+        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-slate-300"
+>>>>>>> aaisha
       >
         <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
           Registration Form
@@ -438,7 +470,7 @@ export default function Registration() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 active:bg-green-700"
         >
           Submit
         </button>

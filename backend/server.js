@@ -43,37 +43,8 @@ app.use('/api', bidRoutes);
 app.use('/api/auction', auctionRoutes);
 // app.use('/api', adminRoutes);
 
-// WebSocket Implementation
-// io.on('connection', (socket) => {
-//   console.log('A user connected:', socket.id);
-
-//   // Listening for custom events from the client
-//   socket.on('joinAuction', (auctionId) => {
-//     console.log(`User joined auction room: ${auctionId}`);
-//     socket.join(`auction_${auctionId}`);
-//   });
-
-  
-
-//   socket.on('placeBid', (data) => {
-//     console.log(`Bid placed:`, data);
-//     io.to(`auction_${data.auctionId}`).emit('bidUpdate', data);
-//   });
-
-//   socket.on('disconnect', () => {
-//     console.log('User disconnected:', socket.id);
-//   });
-
-//   socket.on('auctionUpdated', (updatedAuction) => {
-//     if (!updatedAuction || !updatedAuction.id) return;
-//     console.log('Auction updated:', updatedAuction);
-//     io.emit('auctionUpdate', updatedAuction); // Notify all clients about auction updates
-//   });
-// });
-
-// Database Connection and Server Start
 sequelize
-  .sync({ alter:true, })
+  .sync({ alter:true})
   .then(() => {
     console.log('Database connected!');
 

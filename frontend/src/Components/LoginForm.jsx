@@ -50,12 +50,18 @@ export default function LoginForm() {
   };
 
   return (
+<<<<<<< HEAD
     <div
       className="flex justify-center items-center min-h-screen bg-cover bg-center overflow-hidden "
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <form
         className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-white bg-opacity-90 relative"
+=======
+    <div className="flex justify-center items-center min-h-screen ">
+      <form
+        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-slate-300"
+>>>>>>> aaisha
         onSubmit={handleLogin}
       >
         <div className="flex justify-center mb-6">
@@ -63,7 +69,7 @@ export default function LoginForm() {
         </div>
 
         <h2 className="text-2xl font-bold text-center text-blue-900 mb-6">
-          User Login
+        Login Form
         </h2>
 
         <div className="mb-4">
@@ -110,6 +116,18 @@ export default function LoginForm() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
+<<<<<<< HEAD
+=======
+        {/* <button
+          type="button"
+          onClick={() => navigate("/AdminLogin")}
+          className={`w-full py-2 px-4 rounded-md text-white transition duration-300 bg-blue-500 hover:bg-blue-600}`}
+        >
+          Admin Login
+        </button> */}
+
+        {/* Registration Link */}
+>>>>>>> aaisha
         <p className="text-center mt-4">
           <Link to="/Registration" className="hover:text-blue-700">
             Don't have an account? Register here
