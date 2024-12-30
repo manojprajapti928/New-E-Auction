@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import auctionLogo from "../assets/Auction.png"; // Add your auction logo here
+import bgImage from "../assets/little.jpg"; // Background image for the form
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -17,21 +19,16 @@ export default function LoginForm() {
       setError("Invalid email format");
       return;
     }
-    // if (password.length < 6) {
-    //   setError("Password must be at least 6 characters long");
-    //   return;
-    // }
 
     setLoading(true);
     try {
-      // Retrieve token if available
       const token = localStorage.getItem("token");
 
       const response = await fetch(`http://localhost:3001/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify({ email, password }),
       });
@@ -40,12 +37,8 @@ export default function LoginForm() {
       setLoading(false);
 
       if (response.ok) {
-        localStorage.setItem("token", data.token); // Store new token
-        if (data.role === "admin") {
-          navigate("/AdminDashboard", { replace: true });
-        } else if (data.role === "user") {
-          navigate("/Home", { replace: true });
-        }
+        localStorage.setItem("token", data.token);
+        navigate(data.role === "admin" ? "/AdminDashboard" : "/Home", { replace: true });
       } else {
         setError(data.error || "Login failed. Please check your credentials.");
       }
@@ -57,21 +50,24 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-700">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center overflow-hidden "
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <form
-        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-gray-500"
+        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-white bg-opacity-90 relative"
         onSubmit={handleLogin}
       >
+        <div className="flex justify-center mb-6">
+          <img src={auctionLogo} alt="E-Auction Logo" className="w-30 h-20" />
+        </div>
+
         <h2 className="text-2xl font-bold text-center text-blue-900 mb-6">
           User Login
         </h2>
 
-        {/* Email Field */}
         <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-gray-900 font-medium mb-2"
-          >
+          <label htmlFor="email" className="block text-gray-900 font-medium mb-2">
             Email
           </label>
           <input
@@ -85,12 +81,8 @@ export default function LoginForm() {
           />
         </div>
 
-        {/* Password Field */}
         <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-gray-900 font-medium mb-2"
-          >
+          <label htmlFor="password" className="block text-gray-900 font-medium mb-2">
             Password
           </label>
           <input
@@ -104,10 +96,8 @@ export default function LoginForm() {
           />
         </div>
 
-        {/* Error Message */}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        {/* Login Button */}
         <button
           type="submit"
           disabled={loading}
@@ -120,15 +110,6 @@ export default function LoginForm() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <button
-          type="button"
-          onClick={() => navigate("/AdminLogin")}
-          className={`w-full py-2 px-4 rounded-md text-white transition duration-300 bg-blue-500 hover:bg-blue-600}`}
-        >
-          Admin Login
-        </button>
-
-        {/* Registration Link */}
         <p className="text-center mt-4">
           <Link to="/Registration" className="hover:text-blue-700">
             Don't have an account? Register here

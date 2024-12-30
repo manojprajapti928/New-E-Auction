@@ -8,20 +8,12 @@ import {
   FaCog,
   FaSignOutAlt,
   FaList,
-  FaAddressCard,
-  FaIdCard,
-  FaSdCard,
-  FaCarSide,
-  FaIdCardAlt,
-  FaTable,
-  FaListAlt,
-  FaThList,
-  FaGrav,
   FaRegListAlt,
+  FaThList
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = () => {
   const sidebarLinks = [
     { name: "User List", icon: <FaUser />, path: "/UserList" },
     { name: "Add Product", icon: <FaPlus />, path: "/AddProduct" },
@@ -35,20 +27,16 @@ const Sidebar = ({ isOpen }) => {
   return (
     <motion.div
       initial={{ width: "250px" }}
-      animate={{ width: isOpen ? "250px" : "80px" }}
+      animate={{ width: "250px" }}
       transition={{ duration: 0.3 }}
       className="h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-md fixed top-0 left-0 z-40 flex flex-col"
     >
-      {/* Logo/Title */}
-      {isOpen && (
-        <div className="text-center py-6 border-b border-gray-700">
-          <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
-            Admin Hub
-          </h1>
-        </div>
-      )}
+      <div className="text-center py-6 border-b border-gray-700">
+        <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+          Admin Hub
+        </h1>
+      </div>
 
-      {/* Navigation Links */}
       <nav className="mt-6 flex flex-col space-y-1">
         {sidebarLinks.map((link) => (
           <Link
@@ -57,19 +45,18 @@ const Sidebar = ({ isOpen }) => {
             className="flex items-center p-4 text-sm transition-all hover:bg-gray-700"
           >
             <span className="text-lg">{link.icon}</span>
-            {isOpen && <span className="ml-3">{link.name}</span>}
+            <span className="ml-3">{link.name}</span>
           </Link>
         ))}
       </nav>
 
-      {/* Bottom Section */}
       <div className="mt-auto border-t border-gray-700">
         <Link
           to="/settings"
           className="flex items-center p-4 hover:bg-gray-700 transition-all"
         >
           <FaCog className="text-lg" />
-          {isOpen && <span className="ml-3">Settings</span>}
+          <span className="ml-3">Settings</span>
         </Link>
         <div className="flex items-center p-4 hover:bg-red-500/20 transition-all cursor-pointer">
           <FaSignOutAlt className="text-lg text-red-400" />

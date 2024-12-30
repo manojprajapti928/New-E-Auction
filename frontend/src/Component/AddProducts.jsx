@@ -8,11 +8,11 @@ export default function AddProduct() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    startingPrice: "",
-    auctionStart: "",
-    auctionEnd: "",
+    startingPrice: "",     
+    // auctionStart: "",
+    // auctionEnd: "",
     imageUrl: "",
-    // category: "", // Added for completeness
+    // category: "",
   });
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ export default function AddProduct() {
       if (type === "file") {
         return {
           ...formData,
-          [name]: files[0], // Ensure the file is stored properly
+          [name]: files[0],
         };
       } else {
         return {
@@ -146,7 +146,7 @@ export default function AddProduct() {
           </div>
 
           {/* Auction Start Date Field */}
-          <div>
+          {/* <div>
             <label className="block text-lg font-medium text-gray-900">
               Auction Start Date
             </label>
@@ -157,10 +157,10 @@ export default function AddProduct() {
               onChange={handleChange}
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
             />
-          </div>
+          </div> */}
 
           {/* Auction End Date Field */}
-          <div>
+          {/* <div>
             <label className="block text-lg font-medium text-gray-900">
               Auction End Date
             </label>
@@ -171,7 +171,7 @@ export default function AddProduct() {
               onChange={handleChange}
               className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
             />
-          </div>
+          </div> */}
 
           {/* Image Upload Field */}
           <div>

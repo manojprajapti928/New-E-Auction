@@ -46,13 +46,13 @@ const ProductList = () => {
                 <th className="border border-gray-500 px-4 py-2">
                   Starting Price
                 </th>
-                <th className="border border-gray-500 px-4 py-2">
+                {/* <th className="border border-gray-500 px-4 py-2">
                   Auction Start
                 </th>
                 <th className="border border-gray-500 px-4 py-2">
                   Auction End
-                </th>
-                <th className="border border-gray-500 px-4 py-2">Image URL</th>
+                </th> */}
+                <th className="border border-gray-500 px-4 py-2">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -70,17 +70,17 @@ const ProductList = () => {
                   <td className="border border-gray-500 px-4 py-2">
                     {product.description || "N/A"}
                   </td>
-                  <td className="border border-gray-500 px-4 py-2">
-                    {product.startingPrice || "N/A"}
-                  </td>
-                  <td className="border border-gray-500 px-4 py-2">
+                    <td className="border border-gray-500 px-4 py-2">
+                    ₹{product.startingPrice || "N/A"}
+                    </td>
+                  {/* <td className="border border-gray-500 px-4 py-2">
                     {product.auctionStart || "N/A"}
-                  </td>
-                  <td className="border border-gray-500 px-4 py-2">
+                  </td> */}
+                  {/* <td className="border border-gray-500 px-4 py-2">
                     {product.auctionEnd || "N/A"}
-                  </td>
+                  </td> */}
                   <td className="border border-gray-500 px-4 py-2">
-                    {product.imageUrl || "N/A"}
+                    {product.status || "N/A"}
                   </td>
                 </tr>
               ))}

@@ -19,7 +19,6 @@ const Details = () => {
   const [highestBid, setHighestBid] = useState(null);
   const [bidHistory, setBidHistory] = useState([]);
   const navigate = useNavigate();
-  // console.log(bidHistory, "bidHistory");
 
   useEffect(() => {
     const fetchAuctionDetails = async () => {
@@ -38,6 +37,10 @@ const Details = () => {
         const endTime = new Date(auctionData.auctionEnd).getTime();
         setTimeLeft(endTime - new Date().getTime());
         fetchBidHistory();
+
+        if (new Date(auctionData.auctionEnd) < new Date()) {
+          endAuction(auctionId); // Hit endAuction API when auction is ended
+        }
       } catch (error) {
         setError("Failed to fetch auction details. Please try again.");
         console.error(error);
@@ -59,6 +62,21 @@ const Details = () => {
       setHighestBid(response.data.highestBid);
     } catch (error) {
       console.error("Error fetching bid history:", error);
+    }
+  };
+
+  const endAuction = async (auctionId) => {
+    try {
+      await axios.post(
+        `http://localhost:3001/api/auction/endAuction/${auctionId}`,
+       
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      navigate(`/auctionEnded/${auctionId}`);
+    } catch (error) {
+      console.error("Error ending auction:", error);
     }
   };
 
@@ -205,13 +223,14 @@ const Details = () => {
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={bidAmount}
                   onChange={(e) => setBidAmount(e.target.value)}
+                  disabled={timeLeft <= 0 || new Date(auction.auctionStart) > new Date()}
                 />
               </div>
               <button
                 onClick={placeBid}
-                disabled={timeLeft <= 0}
+                disabled={timeLeft <= 0 || new Date(auction.auctionStart) > new Date()}
                 className={`w-full ${
-                  timeLeft <= 0
+                  timeLeft <= 0 || new Date(auction.auctionStart) > new Date()
                     ? "bg-gray-500 cursor-not-allowed"
                     : "bg-blue-500 hover:bg-blue-600"
                 } text-white font-bold py-2 px-4 rounded-lg transition duration-300`}
@@ -233,9 +252,7 @@ const Details = () => {
                       <span className="font-semibold">
                         {bid.User.username || "Unknown"}
                       </span>
-
                       <span className="font-semibold">{bid.bidder}</span>
-
                       <span className="text-yellow-400 font-bold">
                         ₹{bid.amount}
                       </span>
