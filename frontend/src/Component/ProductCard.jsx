@@ -89,12 +89,14 @@ export default function ProductCard() {
   }
 
   return (
-    <div className="min-h-screenpy-8 overflow-hidden">
+    <div>
+      <Sidebar/>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-8 overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 gap-6 m-11 h-full w-[70vw] rounded-md">
         {products.map((item) => (
           <div
             key={item.id}
-            className="rounded-lg overflow-hidden hover:scale-105 transition-transform bg-slate-300 flex flex-row shadow-lg shadow-black space-y-7"
+            className="rounded-lg overflow-hidden hover:scale-105 transition-transform bg-gray-300 flex flex-row shadow-lg shadow-black space-y-7"
           >
             <div className="flex flex-row">
               <img
@@ -150,6 +152,7 @@ export default function ProductCard() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }
