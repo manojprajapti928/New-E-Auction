@@ -50,18 +50,12 @@ export default function LoginForm() {
   };
 
   return (
-<<<<<<< HEAD
     <div
       className="flex justify-center items-center min-h-screen bg-cover bg-center overflow-hidden "
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <form
         className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-white bg-opacity-90 relative"
-=======
-    <div className="flex justify-center items-center min-h-screen ">
-      <form
-        className="shadow-lg shadow-black rounded-lg p-6 w-full max-w-sm bg-slate-300"
->>>>>>> aaisha
         onSubmit={handleLogin}
       >
         <div className="flex justify-center mb-6">
@@ -116,8 +110,6 @@ export default function LoginForm() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-<<<<<<< HEAD
-=======
         {/* <button
           type="button"
           onClick={() => navigate("/AdminLogin")}
@@ -127,7 +119,6 @@ export default function LoginForm() {
         </button> */}
 
         {/* Registration Link */}
->>>>>>> aaisha
         <p className="text-center mt-4">
           <Link to="/Registration" className="hover:text-blue-700">
             Don't have an account? Register here
