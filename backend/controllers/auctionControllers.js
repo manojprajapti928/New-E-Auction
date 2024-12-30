@@ -129,7 +129,8 @@ exports.updateAuctionStatuses = async () => {
 };
 cron.schedule("* * * * *", exports.updateAuctionStatuses);
 
-// End Auction
+
+
 exports.endAuction = async (req, res) => {
   try {
     const { auctionId } = req.params;
@@ -139,12 +140,12 @@ exports.endAuction = async (req, res) => {
       return res.status(404).json({ error: "Auction not found" });
     }
 
+
     // Find all bids for the given auctionId
     const bids = await Bid.findAll({
       where: { auctionId },
       include: [{ model: User, attributes: ["id", "username", "email"] }],
       order: [["amount", "DESC"]],
-
     });
 
     const product = await Product.findByPk(auction.productId);
@@ -161,24 +162,20 @@ exports.endAuction = async (req, res) => {
       product.status = "sold";
       await product.save();
 
-      // Find the product associated with the auctionId
-      // const product = await Product.findByPk(auctionId);
+      // Delete all non-winning bids
+      await Bid.destroy({
+        where: {
+          auctionId,
+          id: { [Op.ne]: winningBid.id },
+        },
+      });
 
-      // Check if the product was found
-      // if (!product) {
-      //   return res.status(404).json({ message: "Product not found" });
-      // }
-
-      // Update the product's 'soldTo' field
-      // product.soldTo = winningBid.User.id;
-      // await product.save();
-
-      // Set up the email transport and options
+      // Send email to the winning user
       const transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
-          user: "manojprajapti928@gmail.com",
-          pass: "pskt xmiz haep xkwt", // Make sure this is secure
+          user: "manojprajapat928@gmail.com",
+          pass: "egou npff eckk aqqe", 
         },
       });
 
@@ -187,52 +184,51 @@ exports.endAuction = async (req, res) => {
         to: winningBid.User.email,
         subject: "🎉 Congratulations! You won the auction 🎉",
         html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #f4f4f9; padding: 20px; border-radius: 10px; width: 600px; margin: 0 auto;">
-            <div style="text-align: center; background-color: #4CAF50; color: #fff; padding: 10px; border-radius: 5px;">
-              <h2>Congratulations, ${winningBid.User.username}!</h2>
-            </div>
-            <div style="background-color: #fff; padding: 20px; border-radius: 5px; margin-top: 20px;">
-              <p style="font-size: 1.2em; font-weight: bold; color: #333;">🎉 You have won the auction for the product:</p>
-              <h3 style="color: #333;">${product.name}</h3>
-              <p style="color: #333;">Winning Bid: <strong>$${winningBid.amount}</strong></p>
-              <hr style="border: 1px solid #ddd; margin: 20px 0;">
-              <p style="font-size: 1.1em; color: #333;">Please follow the instructions below to claim your product:</p>
-              <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-                <p><strong>Claim Your Product:</strong></p>
-                <ul style="list-style-type: none; padding-left: 0;">
-                  <li style="padding: 8px; font-size: 1em;">1. Contact us at <a href="mailto:manojprajapti928@gmail.com">manojprajapti928@gmail.com</a> for further instructions.</li>
-                  <li style="padding: 8px; font-size: 1em;">2. Provide the auction details and shipping address.</li>
-                  <li style="padding: 8px; font-size: 1em;">3. Await confirmation and shipment of your product!</li>
-                </ul>
-              </div>
-              <hr style="border: 1px solid #ddd; margin: 20px 0;">
-              <p style="font-size: 1.1em; color: #333;">We are excited to complete your transaction and thank you for participating in our auction!</p>
-              <div style="text-align: center; margin-top: 30px;">
-                <a href="mailto:manojprajapti928@gmail.com" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Contact Us</a>
-              </div>
-            </div>
-            <div style="text-align: center; margin-top: 30px; font-size: 0.9em; color: #777;">
-              <p style="margin-bottom: 10px;">Best regards,</p>
-              <p><strong>Auction Team</strong></p>
-              <p><a href="mailto:manojprajapti928@gmail.com">manojprajapti928@gmail.com</a></p>
-            </div>
+          <div>
+            <h2>Congratulations, ${winningBid.User.username}!</h2>
+            <p>You have won the auction for the product: ${product.name}</p>
+            <p>Winning Bid: $${winningBid.amount}</p>
           </div>
         `,
       };
 
-      // Send the email to the winning user
       await transporter.sendMail(mailOptions);
 
-      // Respond with a success message
-      res.status(200).json({
-        message: "Auction ended successfully",
-        product: {
-          id: product.id,
-          name: product.name,
-          soldTo: winningBid.User.username,
-          soldPrice: winningBid.amount,
-        },
-      });
+      // Check if the logged-in user is the winner
+      const loggedInUserId = req.user.userId;
+
+      if (loggedInUserId === winningBid.User.id) {
+        // Send full details to the winner
+        res.status(200).json({
+          message: "Auction ended successfully..............................",
+          product: {
+            id: product.id,
+            name: product.name,
+            soldPrice: winningBid.amount,
+          },
+          winnerDetails: {
+            id: winningBid.User.id,
+            username: winningBid.User.username,
+            email: winningBid.User.email,
+            // ABC:"abc"
+          },
+        
+        });
+       
+      } else {
+        // Send limited details to other users
+        res.status(200).json({
+          message: "Auction ended successfully",
+          product: {
+            id: product.id,
+            name: product.name,
+            soldPrice: winningBid.amount,
+          },
+          winner: {
+            username: winningBid.User.username,
+          },
+        });
+      }
     } else {
       product.status = "unsold";
       await product.save();
@@ -243,6 +239,7 @@ exports.endAuction = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 
 
@@ -260,6 +257,72 @@ exports.deleteAuction = async (req, res) => {
     await auction.destroy();
     res.status(200).json({ message: "Auction deleted successfully" });
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+// Get Ended Auctions
+exports.getEndedAuctions = async (req, res) => {
+  try {
+    const { auctionId } = req.params;
+
+    // Fetch the specific auction by ID with completed status
+    const endedAuction = await Auction.findOne({
+      where: { id: auctionId, status: "completed" },
+      include: [
+        {
+          model: Product,
+          include: [
+            {
+              model: Bid,
+              order: [["amount", "DESC"]], // Sort bids in descending order
+              limit: 1, 
+              include: [
+                {
+                  model: User,
+                  attributes: ["id", "username", "email"], // Include user details
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    // If no ended auction is found, return a message
+    if (!endedAuction) {
+      return res.status(404).json({ message: "No ended auction found" });
+    }
+
+    // Extracting relevant data
+    const winningBid = endedAuction.Product?.Bids[0];
+    const response = {
+      auctionId: endedAuction.id,
+      product: {
+        id: endedAuction.Product.id,
+        name: endedAuction.Product.name,
+        imageUrl: endedAuction.Product.imageUrl,
+        description: endedAuction.Product.description,
+        
+      },
+      winningBid: winningBid
+        ? {
+            amount: winningBid.amount,
+            user: {
+              id: winningBid.User.id,
+              username: winningBid.User.username,
+              email: winningBid.User.email,
+            },
+          }
+        : null, 
+    };
+
+    
+    res.status(200).json({ endedAuction: response });
+  } catch (error) {
+    console.error("Error fetching ended auction:", error);
     res.status(500).json({ error: error.message });
   }
 };

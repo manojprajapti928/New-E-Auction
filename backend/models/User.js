@@ -61,6 +61,7 @@ const User = sequelize.define("User", {
 
 
 
+
 User.hasMany(Product, { foreignKey: "adminId" ,onDelete: 'CASCADE', onUpdate: 'CASCADE'  });
 Product.belongsTo(User, { foreignKey: "adminId" , onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
