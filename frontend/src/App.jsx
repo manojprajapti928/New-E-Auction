@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Navbar from "./Component/Navbar";
 import Home from "./Component/Home";
 import Details from "./Component/Details";
 import Registration from "./Components/Registration";
@@ -39,6 +40,14 @@ function App() {
           <Route path="/bid-list" element={<BidDetail />} />
 
           {/* Protected routes */}
+          <Route
+            path="/Navbar"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Navbar/>
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Home"
             element={
@@ -136,10 +145,10 @@ function App() {
             }
           />
           <Route
-            path="/WinnerDetails"
+            path="/WinnerDetails/:auctionId"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <WinnerDetails/>
+                <WinnerDetails />
               </ProtectedRoute>
             }
           />

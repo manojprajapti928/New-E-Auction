@@ -10,7 +10,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const Details = () => {
+const Details = (amount) => {
   const { auctionId } = useParams();
   const [auction, setAuction] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -87,6 +87,7 @@ const Details = () => {
 
     if (highestBid && bidAmount <= highestBid.amount && amount) {
       alert("Please enter more than the recent bid amount.");
+      // console.log("Please enter more than the recent bid amount.");
       return;
     }
 
@@ -147,7 +148,7 @@ const Details = () => {
                 <img
                   src={auction.Product.imageUrl}
                   alt={auction.Product.name}
-                  className="w-[45vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="border-4 border-blue-700 w-[45vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105 shadow-lg shadow-black"
                 />
               ) : (
                 <div className="h-[500px] bg-gray-800 flex items-center justify-center">

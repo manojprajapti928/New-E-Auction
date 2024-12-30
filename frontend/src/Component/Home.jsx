@@ -1,80 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {
-  Timer,
-  TrendingUp,
-  CheckCircle,
-  Home as HomeIcon,
-  Bell,
-  LogOut,
-  Filter,
-  Search,
-} from "lucide-react";
-
-// Enhanced Navbar Component
-const Navbar = ({ userName }) => {
-  const navigate = useNavigate();
-
-  return (
-    <nav className="top-0 left-0 shadow-x">
-      <div className="container py-3 px-3 flex justify-between items-center bg-blue-700">
-        <div className="flex items-center  space-x-4">
-          <img
-            src="../Images/car1.webp"
-            alt="Auction House Logo"
-            className="h-12 w-12 rounded-full ring-4 ring-blue-500/50 hover:scale-110 transition bg-white"
-          />
-          <h1 className="text-white text-2xl font-extrabold tracking-tight">
-            Auction <span className="text-gray-800">Hub</span>
-          </h1>
-        </div>
-
-        <div className="flex items-center space-x-6">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search auctions..."
-              className="pl-10 pr-4 py-2 rounded-full bg-white text-gray-950 border border-gray-700 focus:ring-2 focus:ring-blue-500 transition"
-            />
-            <Search className="absolute left-3 top-3 text-gray-400" size={18} />
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => navigate("/")}
-              className="text-white hover:text-blue-400 transition"
-            >
-              <HomeIcon />
-            </button>
-
-            <button className="text-white hover:text-blue-400 transition relative">
-              <Bell />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                3
-              </span>
-            </button>
-
-            <div className="flex items-center space-x-3">
-              <div className="bg-white text-black px-4 py-2 rounded-full text-sm font-medium shadow-md">
-                {userName}
-              </div>
-              <button
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  navigate("/");
-                }}
-                className="bg-red-700 text-white hover:bg-white hover:text-red-700 p-2 rounded-full transition"
-              >
-                <LogOut />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
+import Navbar from "./Navbar";
+import { Timer, TrendingUp, CheckCircle, Filter } from "lucide-react";
 
 const Home = () => {
   const [auctions, setAuctions] = useState([]);
@@ -274,7 +202,10 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userName="John Doe" />
+      <Navbar
+        userName="John Doe"
+        onCategoryChange={(selectedCategory) => setCategory(selectedCategory)}
+      />
       <div className="min-h-screen  pt-24 pb-10">
         <div className="container mx-auto px-6">
           <div className="flex justify-center space-x-6 mb-12">
@@ -331,7 +262,6 @@ const Home = () => {
               renderAuctions(
                 auctions.filter((a) => new Date(a.auctionEnd) <= new Date())
               )}
-              
           </div>
         </div>
       </div>
