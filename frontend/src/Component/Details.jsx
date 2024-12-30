@@ -85,8 +85,6 @@ const Details = (amount) => {
       return;
     }
 
-<<<<<<< HEAD
-=======
     if (highestBid && bidAmount <= highestBid.amount && amount) {
       alert("Please enter more than the recent bid amount.");
       // console.log("Please enter more than the recent bid amount.");
@@ -98,7 +96,6 @@ const Details = (amount) => {
       return;
     }
 
->>>>>>> aaisha
     try {
       await axios.post(
         "http://localhost:3001/api/placeBid",
@@ -151,11 +148,7 @@ const Details = (amount) => {
                 <img
                   src={auction.Product.imageUrl}
                   alt={auction.Product.name}
-<<<<<<< HEAD
-                  className="w-[70vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105"
-=======
                   className="border-4 border-blue-700 w-[45vw] h-[50vh] object-cover transition-transform duration-300 group-hover:scale-105 shadow-lg shadow-black"
->>>>>>> aaisha
                 />
               ) : (
                 <div className="h-[500px] bg-gray-800 flex items-center justify-center">
