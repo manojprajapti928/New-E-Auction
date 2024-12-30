@@ -89,13 +89,7 @@ export default function ProductCard() {
   }
 
   return (
-<<<<<<< HEAD
-    <div>
-      <Sidebar/>
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-8 overflow-hidden">
-=======
     <div className="min-h-screenpy-8 overflow-hidden">
->>>>>>> aaisha
       <div className="container mx-auto grid grid-cols-1 gap-6 m-11 h-full w-[70vw] rounded-md">
         {products.map((item) => (
           <div
@@ -156,7 +150,6 @@ export default function ProductCard() {
           </div>
         ))}
       </div>
-    </div>
     </div>
   );
 }
