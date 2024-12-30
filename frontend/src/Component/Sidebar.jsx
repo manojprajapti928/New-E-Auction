@@ -9,19 +9,11 @@ import {
   FaSignOutAlt,
   FaList,
   FaRegListAlt,
-<<<<<<< HEAD
-  FaThList
-} from "react-icons/fa";
-import { motion } from "framer-motion";
-
-const Sidebar = () => {
-=======
   FaThList,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
->>>>>>> aaisha
   const sidebarLinks = [
     { name: "User List", icon: <FaUser />, path: "/UserList" },
     { name: "Add Product", icon: <FaPlus />, path: "/AddProduct" },
@@ -35,23 +27,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <motion.div
       initial={{ width: "250px" }}
-<<<<<<< HEAD
-      animate={{ width: "250px" }}
-=======
       animate={{ width: isOpen ? "250px" : "60px" }}
->>>>>>> aaisha
       transition={{ duration: 0.3 }}
       className="h-screen bg-blue-600 text-white shadow-md fixed top-0 left-0 z-40 flex flex-col"
     >
-<<<<<<< HEAD
-      <div className="text-center py-6 border-b border-gray-700">
-        <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
-          Admin Hub
-        </h1>
-      </div>
-
-      <nav className="mt-6 flex flex-col space-y-1">
-=======
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}
@@ -71,7 +50,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       {/* Navigation Links */}
       <nav className="mt-3 flex flex-col space-y-1">
->>>>>>> aaisha
         {sidebarLinks.map((link) => (
           <Link
             key={link.path}
@@ -90,11 +68,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           className="flex items-center p-4 hover:bg-blue-700 transition-all"
         >
           <FaCog className="text-lg" />
-<<<<<<< HEAD
-          <span className="ml-3">Settings</span>
-=======
           {isOpen && <span className="ml-4">Settings</span>}
->>>>>>> aaisha
         </Link>
         <div className="flex items-center p-4 transition-all cursor-pointer">
           <FaSignOutAlt className="text-lg text-red-600" />
