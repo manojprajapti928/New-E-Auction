@@ -79,15 +79,10 @@ export default function AddProduct() {
   };
 
   return (
-<<<<<<< HEAD
     <div>
       <Sidebar/>
     <div className="flex justify-center items-center bg-gradient-to-b from-gray-900 to-gray-700 h-[100vh] ">
       <div className="max-w-2xl mx-auto p-6  bg-gray-500 shadow-lg shadow-black rounded-lg">
-=======
-    <div className="flex justify-center items-center h-[100vh] ">
-      <div className="max-w-2xl mx-auto p-6 m-3 bg-slate-300 shadow-lg shadow-black  rounded-lg">
->>>>>>> aaisha
         <h1 className="text-center text-2xl font-bold text-gray-800 mb-6">
           Create Product
         </h1>
