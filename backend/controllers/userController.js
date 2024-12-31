@@ -76,20 +76,10 @@ exports.login = async (req, res) => {
     );
     const role = user.role;
 
-    const userDetails = {
-      username: user.username,
-      email: user.email,
-      contactNo: user.contactNo,
-      imageUrl: user.imageUrl,
-      address: user.address,
-      city: user.city,
-      state: user.state,
-      country: user.country,
-      // role: user.role,
-    };
+    
     
 
-    res.status(200).json({ message: "Login successful", token, role,userDetails });
+    res.status(200).json({ message: "Login successful", token, role });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ error: error.message });
@@ -122,5 +112,51 @@ exports.deleteUser = async (req, res) => {
     res.status(200).json({ message: "User deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+
+// const jwt = require("jsonwebtoken");
+// const User = require("../models/User");
+
+// const JWT_SECRET = "jwt-secret";
+
+// Get User Details (Authenticated)
+exports.getUserDetails = async (req, res) => {
+  // Extract token from Authorization header
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (!token) {
+    return res.status(401).json({ error: "Access denied. No token provided." });
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // Find the user based on the userId in the token
+    const user = await User.findByPk(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Return the user details
+    const userDetails = {
+      username: user.username,
+      email: user.email,
+      contactNo: user.contactNo,
+      imageUrl: user.imageUrl,
+      address: user.address,
+      city: user.city,
+      state: user.state,
+      country: user.country,
+      // role: user.role, 
+    };
+
+    res.status(200).json({ userDetails });
+  } catch (error) {
+    console.error("Error retrieving user details:", error);
+    res.status(500).json({ error: "Failed to fetch user details" });
   }
 };

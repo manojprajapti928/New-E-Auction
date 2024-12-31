@@ -13,8 +13,23 @@ import {
 } from "lucide-react";
 
 // Enhanced Navbar Component
-const Navbar = ({ userName }) => {
+const Navbar = () => {
+  // const [user, setUser] = useState([]);
   const navigate = useNavigate();
+  // console.log(user,"users")
+
+  // useEffect(() => {
+
+  //    const userDetails = localStorage.getItem("user");
+  //    console.log(user,"userDetails")
+  //    setUser(userDetails);
+ 
+
+  // },[setUser])
+
+ 
+
+ 
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 to-gray-800 shadow-xl">
@@ -57,7 +72,7 @@ const Navbar = ({ userName }) => {
 
             <div className="flex items-center space-x-3">
               <div className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
-                {userName}
+                {/* {username} */}
               </div>
               <button
                 onClick={() => {
@@ -83,6 +98,8 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState("upcoming");
   const [timeRemaining, setTimeRemaining] = useState({});
   const navigate = useNavigate();
+
+ 
 
   const fetchAuctions = () => {
     setLoading(true);

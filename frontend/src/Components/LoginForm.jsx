@@ -32,12 +32,16 @@ export default function LoginForm() {
         },
         body: JSON.stringify({ email, password }),
       });
+    
 
       const data = await response.json();
+      // const user = data.userDetails;
+      // console.log(user, "response");
       setLoading(false);
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        // localStorage.setItem("user", JSON.stringify(data.userDetails)); 
         navigate(data.role === "admin" ? "/AdminDashboard" : "/Home", { replace: true });
       } else {
         setError(data.error || "Login failed. Please check your credentials.");
