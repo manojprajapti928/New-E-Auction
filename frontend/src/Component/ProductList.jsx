@@ -68,7 +68,7 @@ const ProductList = () => {
                 {product.map((product, index) => (
                   <tr
                     key={product.id}
-                    className="hover:bg-green-500 hover:transition-all hover:scale-100 hover:text-white hover:font-bold"
+                    className="hover:bg-gray-400 hover:transition-all hover:scale-100 hover:text-white hover:font-bold"
                   >
                     <td className="border border-gray-500 px-6 py-3">
                       {index + 1}

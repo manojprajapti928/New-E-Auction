@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaUser,
@@ -10,10 +11,13 @@ import {
   FaList,
   FaRegListAlt,
   FaThList,
+  FaListUl,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const [hoveredLink, setHoveredLink] = useState(null);
+
   const sidebarLinks = [
     { name: "User List", icon: <FaUser />, path: "/UserList" },
     { name: "Add Product", icon: <FaPlus />, path: "/AddProduct" },
@@ -49,16 +53,27 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </div>
 
       {/* Navigation Links */}
-      <nav className="mt-3 flex flex-col space-y-1">
+      <nav className="mt-3 flex flex-col space-y-1 relative">
         {sidebarLinks.map((link) => (
-          <Link
+          <div
             key={link.path}
-            to={link.path}
-            className="flex items-center p-4 text-sm transition-all hover:bg-blue-700"
+            className="relative"
+            onMouseEnter={() => setHoveredLink(link.name)}
+            onMouseLeave={() => setHoveredLink(null)}
           >
-            <span className="text-lg">{link.icon}</span>
-            {isOpen && <span className="ml-3">{link.name}</span>}
-          </Link>
+            <Link
+              to={link.path}
+              className="flex items-center p-4 text-sm transition-all hover:bg-blue-700"
+            >
+              <span className="text-lg">{link.icon}</span>
+              {isOpen && <span className="ml-3">{link.name}</span>}
+            </Link>
+            {!isOpen && hoveredLink === link.name && (
+              <div className="absolute left-full top-1/3 transform -translate-y-1/3 bg-blue-600 text-white text-base p-2 rounded shadow-md">
+                {link.name}
+              </div>
+            )}
+          </div>
         ))}
       </nav>
 

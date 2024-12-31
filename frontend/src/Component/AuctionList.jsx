@@ -104,14 +104,14 @@ const AuctionList = () => {
       auctions.map((auction) => (
         <div
           key={auction.id}
-          className="rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform h-[70vh] w-[20vw] shadow-black"
+          className="rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform h-[77vh] w-[20vw] shadow-black"
         >
           <div className="p-4 bg-slate-100">
             {auction.Product?.imageUrl && (
               <img
                 src={auction.Product.imageUrl}
                 alt={auction.Product?.name || "Product Image"}
-                className="object-cover mt-4 rounded-md bg-gray-300 h-[27vh] w-[25vw]"
+                className="object-cover mt-4 rounded-md bg-gray-300 h-[39vh] w-[25vw]"
               />
             )}
             <div>

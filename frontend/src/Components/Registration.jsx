@@ -232,7 +232,7 @@ export default function Registration() {
     state: "",
     country: "",
     contactNo: "",
-    contactNo: null,
+    imageUrl:"null",
   });
 
   const [showPassword, setShowPassword] = useState(false);
