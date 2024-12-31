@@ -68,6 +68,24 @@ const UserList = () => {
                     <td className="border border-gray-500 px-4 py-2">
                       {data.role}
                     </td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      {data.address}
+                    </td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      {data.city}
+                    </td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      {data.state}
+                    </td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      {data.country}
+                    </td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      {data.contactNo}
+                    </td>
+                    <td className="border border-gray-500 px-4 py-2">
+                      {data.contactNo}
+                    </td>
                   </tr>
                 ))}
               </tbody>

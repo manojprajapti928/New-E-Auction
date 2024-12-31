@@ -9,7 +9,7 @@ import {
   FaSignOutAlt,
   FaList,
   FaRegListAlt,
-  FaThList
+  FaThList,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}
-        className=" absolute top-4 left-4 bg-white text-blue-700 hover:scale-110 p-2 rounded-full shadow-md flex items-center justify-center"
+        className="absolute top-4 left-4 bg-white text-blue-700 hover:scale-110 p-2 rounded-full shadow-md flex items-center justify-center"
       >
         {isOpen ? "<" : ">"}
       </button>
@@ -42,7 +42,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       {/* Logo/Title */}
       <div className="text-center py-6">
         {isOpen && (
-          <h1 className="ml-14 text-xl font-bold text-transparent flex justify-start bg-clip-text bg-white pl-3">
+          <h1 className="text-xl font-bold text-transparent flex justify-start bg-clip-text bg-white pl-3 ml-11">
             Admin Hub
           </h1>
         )}
@@ -57,11 +57,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             className="flex items-center p-4 text-sm transition-all hover:bg-blue-700"
           >
             <span className="text-lg">{link.icon}</span>
-            <span className="ml-3">{link.name}</span>
+            {isOpen && <span className="ml-3">{link.name}</span>}
           </Link>
         ))}
       </nav>
 
+      {/* Bottom Section */}
       <div className="mt-auto border-t border-gray-700">
         <Link
           to="/settings"
