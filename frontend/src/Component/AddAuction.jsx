@@ -64,7 +64,7 @@ const AddAuction = () => {
     <div>
       <Sidebar/>
     <div className="flex justify-center items-center h-[100vh] ">
-      <div className="text-center h-[60vh] w-[40vh] p-6  bg-slate-300 shadow-lg shadow-black rounded-lg">
+      <div className="text-center h-[60vh] w-[40vh] p-6 bg-slate-300 shadow-lg shadow-black rounded-lg">
         <h1 className="text-2xl font-bold text-blue-950 mb-6">Add Auction</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

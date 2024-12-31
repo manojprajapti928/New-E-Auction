@@ -90,69 +90,69 @@ export default function ProductCard() {
 
   return (
     <div>
-      <Sidebar/>
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-8 overflow-hidden">
-      <div className="container mx-auto grid grid-cols-1 gap-6 m-11 h-full w-[70vw] rounded-md">
-        {products.map((item) => (
-          <div
-            key={item.id}
-            className="rounded-lg overflow-hidden hover:scale-105 transition-transform bg-gray-300 flex flex-row shadow-lg shadow-black space-y-7"
-          >
-            <div className="flex flex-row">
-              <img
-                src={item.imageUrl}
-                alt={item.name || "Product Image"}
-                className="h-[30vh] w-[21vw] m-3 rounded-md"
-              />
-            </div>
-            <div className="flex flex-col flex-wrap text-xl">
-              <div className="flex flex-col">
-                <h1 className="text-lg">
-                  <span className="font-bold">Name: </span>
-                  {item.name || "N/A"}
-                </h1>
-                <p>
-                  {" "}
-                  <span className="font-bold"> Description: </span>
-                  {item.description || "N/A"}
-                </p>
-                <p>
-                  {" "}
-                  <span className="font-bold">Price: </span>
-                  Rs.{item.startingPrice || "N/A"}/-
-                </p>
-                <p>
-                  <span className="font-bold">Auction Start Date: </span>
-                  {item.auctionStart
-                    ? new Date(item.auctionStart).toLocaleString()
-                    : "N/A"}
-                </p>
-                <p>
-                  <span className="font-bold">Auction End Date: </span>
-                  {item.auctionEnd
-                    ? new Date(item.auctionEnd).toLocaleString()
-                    : "N/A"}
-                </p>
-                {/* <p>Category: {item.category || "N/A"}</p> */}
-                <div>
-                  <Link to={`/UpdateCard/${item.id}`}>
-                    <button className="h-[7vh] w-[9vw] text-white bg-blue-700 rounded-md m-7 hover:bg-blue-600 active:bg-blue-700 scale-105 hover:scale-110">
-                      Update
+      <Sidebar />
+      <div className="min-h-screen py-8 overflow-hidden">
+        <div className="container mx-auto grid grid-cols-1 gap-6 m-11 h-full w-[70vw] rounded-md">
+          {products.map((item) => (
+            <div
+              key={item.id}
+              className="rounded-lg overflow-hidden hover:scale-105 transition-transform bg-gray-300 flex flex-row shadow-lg shadow-black space-y-7"
+            >
+              <div className="flex flex-row">
+                <img
+                  src={item.imageUrl}
+                  alt={item.name || "Product Image"}
+                  className="h-[30vh] w-[21vw] m-3 rounded-md"
+                />
+              </div>
+              <div className="flex flex-col flex-wrap text-xl">
+                <div className="flex flex-col">
+                  <h1 className="text-lg">
+                    <span className="font-bold">Name: </span>
+                    {item.name || "N/A"}
+                  </h1>
+                  <p>
+                    {" "}
+                    <span className="font-bold"> Description: </span>
+                    {item.description || "N/A"}
+                  </p>
+                  <p>
+                    {" "}
+                    <span className="font-bold">Price: </span>
+                    Rs.{item.startingPrice || "N/A"}/-
+                  </p>
+                  <p>
+                    <span className="font-bold">Auction Start Date: </span>
+                    {item.auctionStart
+                      ? new Date(item.auctionStart).toLocaleString()
+                      : "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">Auction End Date: </span>
+                    {item.auctionEnd
+                      ? new Date(item.auctionEnd).toLocaleString()
+                      : "N/A"}
+                  </p>
+                  {/* <p>Category: {item.category || "N/A"}</p> */}
+                  <div>
+                    <Link to={`/UpdateCard/${item.id}`}>
+                      <button className="h-[7vh] w-[9vw] text-white bg-blue-700 rounded-md m-7 hover:bg-blue-600 active:bg-blue-700 scale-105 hover:scale-110">
+                        Update
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="h-[7vh] w-[9vw] text-white bg-red-700 rounded-md m-3 hover:bg-red-600 active:bg-red-700 scale-105 hover:scale-110"
+                    >
+                      Delete
                     </button>
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="h-[7vh] w-[9vw] text-white bg-red-700 rounded-md m-3 hover:bg-red-600 active:bg-red-700 scale-105 hover:scale-110"
-                  >
-                    Delete
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 }

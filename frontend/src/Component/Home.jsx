@@ -206,7 +206,7 @@ const Home = () => {
         userName="John Doe"
         onCategoryChange={(selectedCategory) => setCategory(selectedCategory)}
       />
-      <div className="min-h-screen  pt-24 pb-10">
+      <div className="min-h-screen  pt-7 pb-10">
         <div className="container mx-auto px-6">
           <div className="flex justify-center space-x-6 mb-12">
             {["upcoming", "ongoing", "completed"].map((category) => (

@@ -32,7 +32,7 @@ export default function Navbar({ userName, onCategoryChange }) {
           </h1>
         </div>
 
-        <ul className="flex space-x-4 justify-center">
+        {/* <ul className="flex space-x-4 justify-center">
           <li>
             <button
               onClick={() => onCategoryChange("ongoing")}
@@ -57,10 +57,10 @@ export default function Navbar({ userName, onCategoryChange }) {
               Completed Auctions
             </button>
           </li>
-        </ul>
+        </ul> */}
 
-        <div className="flex items-center space-x-6">
-          <div className="relative">
+        <div className="flex items-center space-x-6 mr-5">
+          <div className="relative mr-48">
             <input
               type="text"
               placeholder="Search auctions..."
@@ -70,21 +70,21 @@ export default function Navbar({ userName, onCategoryChange }) {
           </div>
 
           <div className="flex items-center space-x-3">
-            <button
+            {/* <button
               onClick={() => navigate("/")}
               className="text-white hover:text-blue-400 transition"
             >
               <HomeIcon />
-            </button>
+            </button> */}
 
-            <button className="text-white hover:text-blue-400 transition relative">
+            {/* <button className="text-white hover:text-blue-400 transition relative">
               <Bell />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 3
               </span>
-            </button>
+            </button> */}
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-11">
               <div className="bg-white text-black px-2 py-2 rounded-full text-sm font-medium shadow-md hover:bg-blue-400">
                 <User />
               </div>

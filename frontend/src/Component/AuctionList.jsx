@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+// import { Sidebar } from "lucide-react";
+import Sidebar from "./Sidebar";
 
 const AuctionList = () => {
   const { auctionId } = useParams();
@@ -102,14 +104,14 @@ const AuctionList = () => {
       auctions.map((auction) => (
         <div
           key={auction.id}
-          className="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform"
+          className="rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform h-[70vh] w-[20vw] shadow-black"
         >
           <div className="p-4 bg-slate-100">
             {auction.Product?.imageUrl && (
               <img
                 src={auction.Product.imageUrl}
                 alt={auction.Product?.name || "Product Image"}
-                className="object-cover mt-4 rounded-md bg-gray-500"
+                className="object-cover mt-4 rounded-md bg-gray-300 h-[27vh] w-[25vw]"
               />
             )}
             <div>
@@ -184,52 +186,55 @@ const AuctionList = () => {
   }
 
   return (
-    <div className="min-h-screen py-10">
-      <div className="container mx-auto">
-        <div className="flex justify-center space-x-4 mb-6">
-          <button
-            onClick={() => handleCategoryChange("upcoming")}
-            className={`${
-              activeCategory === "upcoming" ? "bg-blue-500" : "bg-gray-800"
-            } text-white px-6 py-2 rounded-md hover:bg-blue-600 transition`}
-          >
-            Upcoming Auctions
-          </button>
-          <button
-            onClick={() => handleCategoryChange("ongoing")}
-            className={`${
-              activeCategory === "ongoing" ? "bg-blue-500" : "bg-gray-800"
-            } text-white px-6 py-2 rounded-md hover:bg-blue-600 transition`}
-          >
-            Ongoing Auctions
-          </button>
-          <button
-            onClick={() => handleCategoryChange("completed")}
-            className={`${
-              activeCategory === "completed" ? "bg-blue-500" : "bg-gray-800"
-            } text-white px-6 py-2 rounded-md hover:bg-blue-600 transition`}
-          >
-            Completed Auctions
-          </button>
-        </div>
+    <div>
+      <Sidebar />
+      <div className="min-h-screen py-10">
+        <div className="container mx-auto">
+          <div className="flex justify-center space-x-4 mb-6">
+            <button
+              onClick={() => handleCategoryChange("upcoming")}
+              className={`${
+                activeCategory === "upcoming" ? "bg-blue-500" : "bg-gray-800"
+              } text-white px-6 py-2 rounded-md hover:bg-blue-600 transition`}
+            >
+              Upcoming Auctions
+            </button>
+            <button
+              onClick={() => handleCategoryChange("ongoing")}
+              className={`${
+                activeCategory === "ongoing" ? "bg-blue-500" : "bg-gray-800"
+              } text-white px-6 py-2 rounded-md hover:bg-blue-600 transition`}
+            >
+              Ongoing Auctions
+            </button>
+            <button
+              onClick={() => handleCategoryChange("completed")}
+              className={`${
+                activeCategory === "completed" ? "bg-blue-500" : "bg-gray-800"
+              } text-white px-6 py-2 rounded-md hover:bg-blue-600 transition`}
+            >
+              Completed Auctions
+            </button>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {activeCategory === "upcoming" &&
-            renderAuctions(
-              auctions.filter((a) => new Date(a.auctionStart) > new Date())
-            )}
-          {activeCategory === "ongoing" &&
-            renderAuctions(
-              auctions.filter(
-                (a) =>
-                  new Date(a.auctionStart) <= new Date() &&
-                  new Date(a.auctionEnd) > new Date()
-              )
-            )}
-          {activeCategory === "completed" &&
-            renderAuctions(
-              auctions.filter((a) => new Date(a.auctionEnd) <= new Date())
-            )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 ml-[4rem]">
+            {activeCategory === "upcoming" &&
+              renderAuctions(
+                auctions.filter((a) => new Date(a.auctionStart) > new Date())
+              )}
+            {activeCategory === "ongoing" &&
+              renderAuctions(
+                auctions.filter(
+                  (a) =>
+                    new Date(a.auctionStart) <= new Date() &&
+                    new Date(a.auctionEnd) > new Date()
+                )
+              )}
+            {activeCategory === "completed" &&
+              renderAuctions(
+                auctions.filter((a) => new Date(a.auctionEnd) <= new Date())
+              )}
+          </div>
         </div>
       </div>
     </div>
