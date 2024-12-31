@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 const JWT_SECRET = "jwt-secret";
 
-// Register a new user
+// Register a new user//
 exports.register = async (req, res) => {
   const {
     username,
@@ -16,6 +16,7 @@ exports.register = async (req, res) => {
     state,
     country,
     contactNo,
+    imageUrl,
   } = req.body;
 
   try {
@@ -51,7 +52,7 @@ exports.register = async (req, res) => {
   }
 };
 
-// Login
+// Login user and admin //
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -75,7 +76,6 @@ exports.login = async (req, res) => {
       { expiresIn: "1h" }
     );
     const role = user.role;
-    
 
     res.status(200).json({ message: "Login successful", token, role });
   } catch (error) {
@@ -84,11 +84,23 @@ exports.login = async (req, res) => {
   }
 };
 
-// Get all users (admin only)
+// Get all users (admin only) //
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ["id", "username", "email", "role", "imageUrl"],
+      attributes: [
+        "id",
+        "username",
+        "email",
+        "role",
+        "imageUrl",
+        "address",
+        "city",
+        "state",
+        "country",
+        "contactNo",
+        "imageUrl",
+      ],
     });
     res.status(200).json(users);
   } catch (error) {
@@ -96,7 +108,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-// Delete user (admin only)
+// Delete user (admin only) //
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
 
@@ -110,5 +122,41 @@ exports.deleteUser = async (req, res) => {
     res.status(200).json({ message: "User deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// get user details by token //
+exports.getUserDetails = async (req, res) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (!token) {
+    return res.status(401).json({ error: "Access denied. No token provided." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const user = await User.findByPk(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userDetails = {
+      username: user.username,
+      email: user.email,
+      contactNo: user.contactNo,
+      imageUrl: user.imageUrl,
+      address: user.address,
+      city: user.city,
+      state: user.state,
+      country: user.country,
+      // role: user.role,
+    };
+
+    res.status(200).json({ userDetails });
+  } catch (error) {
+    console.error("Error retrieving user details:", error);
+    res.status(500).json({ error: "Failed to fetch user details" });
   }
 };
