@@ -22,7 +22,7 @@ export default function AdminDashboard() {
         {/* Top Navigation Bar */}
         <nav className="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md border-b border-black">
           <h1 className="text-xl font-bold">Admin Dashboard</h1>
-          <button
+          {/* <button
             className="p-2 bg-red-600 text-white rounded-md"
             onClick={() => {
               localStorage.removeItem("token");
@@ -30,7 +30,7 @@ export default function AdminDashboard() {
             }}
           >
             Log Out
-          </button>
+          </button> */}
         </nav>
 
         {/* Dashboard Content */}
