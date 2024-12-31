@@ -75,9 +75,21 @@ exports.login = async (req, res) => {
       { expiresIn: "1h" }
     );
     const role = user.role;
+
+    const userDetails = {
+      username: user.username,
+      email: user.email,
+      contactNo: user.contactNo,
+      imageUrl: user.imageUrl,
+      address: user.address,
+      city: user.city,
+      state: user.state,
+      country: user.country,
+      // role: user.role,
+    };
     
 
-    res.status(200).json({ message: "Login successful", token, role });
+    res.status(200).json({ message: "Login successful", token, role,userDetails });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ error: error.message });
