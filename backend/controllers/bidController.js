@@ -3,9 +3,9 @@ const Product = require("../models/Product");
 const Auction = require("../models/Auction");
 const User = require("../models/User");
 
-// const {io} = require('../server')
 
-// Place a bid
+
+// Place a bid by user //
 exports.placeBid = async (req, res) => {
   try {
     const { auctionId, bidAmount } = req.body;
@@ -68,6 +68,7 @@ exports.placeBid = async (req, res) => {
   }
 };
 
+// Get all bids for an auction //
 exports.getAllBids = async (req, res) => {
   try {
     const bids = await Bid.findAll({
@@ -88,7 +89,7 @@ exports.getAllBids = async (req, res) => {
   }
 };
 
-// Delete a bid (Admin only)
+// Delete a bid (Admin only) //////////////////////////////////
 exports.deleteBid = async (req, res) => {
   const { bidId } = req.params;
 

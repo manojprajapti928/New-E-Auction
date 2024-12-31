@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 const JWT_SECRET = "jwt-secret";
 
-// Register a new user
+// Register a new user//
 exports.register = async (req, res) => {
   const {
     username,
@@ -51,7 +51,7 @@ exports.register = async (req, res) => {
   }
 };
 
-// Login
+// Login user and admin //
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -76,9 +76,6 @@ exports.login = async (req, res) => {
     );
     const role = user.role;
 
-    
-    
-
     res.status(200).json({ message: "Login successful", token, role });
   } catch (error) {
     console.error("Error during login:", error);
@@ -86,7 +83,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// Get all users (admin only)
+// Get all users (admin only) //
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
@@ -98,7 +95,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-// Delete user (admin only)
+// Delete user (admin only) //
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
 
@@ -116,14 +113,9 @@ exports.deleteUser = async (req, res) => {
 };
 
 
-// const jwt = require("jsonwebtoken");
-// const User = require("../models/User");
-
-// const JWT_SECRET = "jwt-secret";
-
-// Get User Details (Authenticated)
+// get user details by token //
 exports.getUserDetails = async (req, res) => {
-  // Extract token from Authorization header
+ 
   const token = req.header("Authorization")?.replace("Bearer ", "");
 
   if (!token) {
@@ -131,17 +123,14 @@ exports.getUserDetails = async (req, res) => {
   }
 
   try {
-    // Verify the token
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // Find the user based on the userId in the token
     const user = await User.findByPk(decoded.userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Return the user details
     const userDetails = {
       username: user.username,
       email: user.email,
@@ -151,8 +140,10 @@ exports.getUserDetails = async (req, res) => {
       city: user.city,
       state: user.state,
       country: user.country,
-      // role: user.role, 
+      // role: user.role,
     };
+
+    
 
     res.status(200).json({ userDetails });
   } catch (error) {

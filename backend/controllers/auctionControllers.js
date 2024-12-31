@@ -7,7 +7,7 @@ const User = require("../models/User");
 const nodemailer = require("nodemailer");
 
 const moment = require("moment-timezone");
-
+// Create a new auction //
 exports.createAuction = async (req, res) => {
   const { productId, auctionStart, auctionEnd } = req.body;
 
@@ -21,12 +21,14 @@ exports.createAuction = async (req, res) => {
     const existingAuction = await Auction.findOne({
       where: {
         productId: product.id,
-        status: { [Op.in]: ["upcoming", "ongoing","completed"] },
+        status: { [Op.in]: ["upcoming", "ongoing", "completed"] },
       },
     });
 
     if (existingAuction) {
-      return res.status(400).json({ error: "This product is already use in Auction." });
+      return res
+        .status(400)
+        .json({ error: "This product is already use in Auction." });
     }
 
     const startTime = moment.tz(auctionStart, "Asia/Kolkata").toDate();
@@ -69,7 +71,7 @@ exports.createAuction = async (req, res) => {
   }
 };
 
-// Get All Auctions
+// Get All Auctions //
 exports.getAuctions = async (req, res) => {
   try {
     const auctions = await Auction.findAll({
@@ -81,7 +83,7 @@ exports.getAuctions = async (req, res) => {
   }
 };
 
-// Get Auction by ID
+// Get Auction by ID //
 exports.getAuctionById = async (req, res) => {
   const { auctionId } = req.params;
 
@@ -100,11 +102,11 @@ exports.getAuctionById = async (req, res) => {
   }
 };
 
-// Update Auction Status
+// Update Auction Status //
 exports.updateAuctionStatuses = async () => {
   const now = moment().tz("Asia/Kolkata").toDate();
 
-  // Update upcoming to ongoing
+
   await Auction.update(
     { status: "ongoing" },
     {
@@ -116,7 +118,7 @@ exports.updateAuctionStatuses = async () => {
     }
   );
 
-  // Update ongoing to completed
+
   await Auction.update(
     { status: "completed" },
     {
@@ -129,8 +131,7 @@ exports.updateAuctionStatuses = async () => {
 };
 cron.schedule("* * * * *", exports.updateAuctionStatuses);
 
-
-
+// End Auction //
 exports.endAuction = async (req, res) => {
   try {
     const { auctionId } = req.params;
@@ -139,7 +140,6 @@ exports.endAuction = async (req, res) => {
     if (!auction) {
       return res.status(404).json({ error: "Auction not found" });
     }
-
 
     // Find all bids for the given auctionId
     const bids = await Bid.findAll({
@@ -154,7 +154,7 @@ exports.endAuction = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // Check if there are any bids
+   
     if (bids.length > 0) {
       const winningBid = bids[0];
 
@@ -162,7 +162,7 @@ exports.endAuction = async (req, res) => {
       product.status = "sold";
       await product.save();
 
-      // Delete all non-winning bids
+      
       await Bid.destroy({
         where: {
           auctionId,
@@ -170,12 +170,12 @@ exports.endAuction = async (req, res) => {
         },
       });
 
-      // Send email to the winning user
+     
       const transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
           user: "manojprajapat928@gmail.com",
-          pass: "egou npff eckk aqqe", 
+          pass: "egou npff eckk aqqe",
         },
       });
 
@@ -194,11 +194,11 @@ exports.endAuction = async (req, res) => {
 
       await transporter.sendMail(mailOptions);
 
-      // Check if the logged-in user is the winner
+     
       const loggedInUserId = req.user.userId;
 
       if (loggedInUserId === winningBid.User.id) {
-        // Send full details to the winner
+        
         res.status(200).json({
           message: "Auction ended successfully..............................",
           product: {
@@ -212,11 +212,9 @@ exports.endAuction = async (req, res) => {
             email: winningBid.User.email,
             // ABC:"abc"
           },
-        
         });
-       
       } else {
-        // Send limited details to other users
+        
         res.status(200).json({
           message: "Auction ended successfully",
           product: {
@@ -240,10 +238,7 @@ exports.endAuction = async (req, res) => {
   }
 };
 
-
-
-
-// Delete Auction
+// Delete Auction //
 exports.deleteAuction = async (req, res) => {
   const { auctionId } = req.params;
 
@@ -261,14 +256,11 @@ exports.deleteAuction = async (req, res) => {
   }
 };
 
-
-
-// Get Ended Auctions
+// Get Ended Auctions //
 exports.getEndedAuctions = async (req, res) => {
   try {
     const { auctionId } = req.params;
 
-    // Fetch the specific auction by ID with completed status
     const endedAuction = await Auction.findOne({
       where: { id: auctionId, status: "completed" },
       include: [
@@ -277,12 +269,12 @@ exports.getEndedAuctions = async (req, res) => {
           include: [
             {
               model: Bid,
-              order: [["amount", "DESC"]], // Sort bids in descending order
-              limit: 1, 
+              order: [["amount", "DESC"]], 
+              limit: 1,
               include: [
                 {
                   model: User,
-                  attributes: ["id", "username", "email"], // Include user details
+                  attributes: ["id", "username", "email"], 
                 },
               ],
             },
@@ -291,12 +283,12 @@ exports.getEndedAuctions = async (req, res) => {
       ],
     });
 
-    // If no ended auction is found, return a message
+    
     if (!endedAuction) {
       return res.status(404).json({ message: "No ended auction found" });
     }
 
-    // Extracting relevant data
+ 
     const winningBid = endedAuction.Product?.Bids[0];
     const response = {
       auctionId: endedAuction.id,
@@ -305,7 +297,6 @@ exports.getEndedAuctions = async (req, res) => {
         name: endedAuction.Product.name,
         imageUrl: endedAuction.Product.imageUrl,
         description: endedAuction.Product.description,
-        
       },
       winningBid: winningBid
         ? {
@@ -316,10 +307,9 @@ exports.getEndedAuctions = async (req, res) => {
               email: winningBid.User.email,
             },
           }
-        : null, 
+        : null,
     };
 
-    
     res.status(200).json({ endedAuction: response });
   } catch (error) {
     console.error("Error fetching ended auction:", error);
