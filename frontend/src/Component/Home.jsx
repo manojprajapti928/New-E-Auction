@@ -1,80 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {
-  Timer,
-  TrendingUp,
-  CheckCircle,
-  Home as HomeIcon,
-  Bell,
-  LogOut,
-  Filter,
-  Search,
-} from "lucide-react";
-
-// Enhanced Navbar Component
-const Navbar = ({ userName }) => {
-  const navigate = useNavigate();
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 to-gray-800 shadow-xl">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <img
-            src="/auction-logo.png"
-            alt="Auction House Logo"
-            className="h-12 w-12 rounded-full ring-4 ring-blue-500/50 hover:scale-110 transition"
-          />
-          <h1 className="text-white text-2xl font-extrabold tracking-tight">
-            Auction <span className="text-blue-500">Hub</span>
-          </h1>
-        </div>
-
-        <div className="flex items-center space-x-6">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search auctions..."
-              className="pl-10 pr-4 py-2 rounded-full bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-blue-500 transition"
-            />
-            <Search className="absolute left-3 top-3 text-gray-400" size={18} />
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => navigate("/")}
-              className="text-white hover:text-blue-400 transition"
-            >
-              <HomeIcon />
-            </button>
-
-            <button className="text-white hover:text-blue-400 transition relative">
-              <Bell />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                3
-              </span>
-            </button>
-
-            <div className="flex items-center space-x-3">
-              <div className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
-                {userName}
-              </div>
-              <button
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  navigate("/");
-                }}
-                className="text-red-500 hover:bg-red-50 p-2 rounded-full transition"
-              >
-                <LogOut />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
+import Navbar from "./Navbar";
+import { Timer, TrendingUp, CheckCircle, Filter } from "lucide-react";
 
 const Home = () => {
   const [auctions, setAuctions] = useState([]);
@@ -145,16 +73,17 @@ const Home = () => {
       auctions.map((auction) => (
         <div
           key={auction.id}
-          className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:border-blue-500/50"
+          className="rounded-2xl overflow-hidden border border-gray-300 shadow-md shadow-black transition-all duration-300 hover:scale-105 hover:border-blue-500"
         >
           <div className="relative">
             {auction.Product?.imageUrl ? (
-              <div className="relative group">
+              <div className="relative group bg-gray-300">
                 <img
                   src={auction.Product.imageUrl}
                   alt={auction.Product?.name || "Product Image"}
                   className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                {/* Timing */}
                 <div className="absolute top-4 right-4 bg-black/70 text-white px-4 py-2 rounded-full flex items-center">
                   <Timer className="mr-2 w-5 h-5 text-blue-400" />
                   <span className="text-sm font-semibold">
@@ -169,21 +98,21 @@ const Home = () => {
             )}
           </div>
 
-          <div className="p-6 space-y-4 text-white">
+          <div className="p-6 space-y-4 bg-slate-300 text-black">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold truncate pr-4">
                 {auction.Product?.name || "No Name Available"}
               </h2>
-              <span className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-full">
+              <span className="text-sm font-medium bg-white text-black px-4 py-2 rounded-full">
                 ₹{auction.Product?.startingPrice || "N/A"}
               </span>
             </div>
 
-            <p className="text-gray-300 text-sm line-clamp-2">
+            <p className="text-gray-700 text-sm line-clamp-2">
               {auction.description || "No description available"}
             </p>
 
-            <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
+            <div className="grid grid-cols-2 gap-2 text-xs text-black">
               <div className="flex items-center">
                 <TrendingUp className="mr-2 w-4 h-4 text-green-400" />
                 <span>
@@ -200,14 +129,21 @@ const Home = () => {
 
             <div className="pt-4 border-t border-white/20">
               <button
-                onClick={() => navigate(`/details/${auction.id}`)}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 rounded-lg 
-                hover:from-blue-700 hover:to-blue-900 
-                transition duration-300 
-                transform hover:scale-105 
-                flex items-center justify-center 
-                space-x-2 
-                group"
+                onClick={() => {
+                  if (new Date(auction.auctionStart) > new Date()) {
+                    alert(
+                      "This auction is not available. You cannot apply a bid on it yet."
+                    );
+                  } else {
+                    navigate(`/details/${auction.id}`);
+                  }
+                }}
+                disabled={new Date(auction.auctionStart) > new Date()}
+                className={`w-full py-3 rounded-lg flex items-center justify-center space-x-2 group transition ${
+                  new Date(auction.auctionStart) > new Date()
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-700 hover:bg-blue-800 transform hover:scale-105"
+                }`}
               >
                 <span>View Auction Details</span>
                 <svg
@@ -266,8 +202,11 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userName="John Doe" />
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 pt-24 pb-10">
+      <Navbar
+        userName="John Doe"
+        onCategoryChange={(selectedCategory) => setCategory(selectedCategory)}
+      />
+      <div className="min-h-screen  pt-24 pb-10">
         <div className="container mx-auto px-6">
           <div className="flex justify-center space-x-6 mb-12">
             {["upcoming", "ongoing", "completed"].map((category) => (

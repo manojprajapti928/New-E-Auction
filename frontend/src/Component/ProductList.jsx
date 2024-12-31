@@ -36,15 +36,15 @@ const ProductList = () => {
           <div className="overflow-x-auto shadow-md shadow-black rounded-lg m-3 ml-5">
             <h1 className="text-center text-2xl font-semibold m-3">Product Table</h1>
             <table className="min-w-full border-collapse border border-gray-400 bg-gray-300 text-black text-center text-sm sm:text-base">
-              <thead className="text-center">
+              <thead>
                 <tr className="bg-gray-700 text-white">
-                  <th className="border border-gray-500 px-6 py-3 text-lg">S.No.</th>
-                  <th className="border border-gray-500 px-6 py-3 text-lg">Product Name</th>
-                  <th className="border border-gray-500 px-6 py-3 text-lg">Description</th>
-                  <th className="border border-gray-500 px-6 py-3 text-lg">Starting Price</th>
-                  <th className="border border-gray-500 px-6 py-3 text-lg">Auction Start</th>
-                  <th className="border border-gray-500 px-6 py-3 text-lg">Auction End</th>
-                  <th className="border border-gray-500 px-6 py-3 text-lg">Image URL</th>
+                  <th className="border border-gray-500 px-6 py-3">S.No.</th>
+                  <th className="border border-gray-500 px-6 py-3">Product Name</th>
+                  <th className="border border-gray-500 px-6 py-3">Description</th>
+                  <th className="border border-gray-500 px-6 py-3">Starting Price</th>
+                  <th className="border border-gray-500 px-6 py-3">Auction Start</th>
+                  <th className="border border-gray-500 px-6 py-3">Auction End</th>
+                  <th className="border border-gray-500 px-6 py-3">Image URL</th>
                 </tr>
               </thead>
               <tbody>

@@ -63,7 +63,7 @@ export default function LoginForm() {
         </div>
 
         <h2 className="text-2xl font-bold text-center text-blue-900 mb-6">
-          User Login
+        Login Form
         </h2>
 
         <div className="mb-4">
@@ -110,6 +110,15 @@ export default function LoginForm() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
+        {/* <button
+          type="button"
+          onClick={() => navigate("/AdminLogin")}
+          className={`w-full py-2 px-4 rounded-md text-white transition duration-300 bg-blue-500 hover:bg-blue-600}`}
+        >
+          Admin Login
+        </button> */}
+
+        {/* Registration Link */}
         <p className="text-center mt-4">
           <Link to="/Registration" className="hover:text-blue-700">
             Don't have an account? Register here
