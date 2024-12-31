@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auctionController = require('../controllers/auctionControllers');
+const { isAuthenticated } = require('../middleware/auth');
 // const { AccessDeniedError } = require('sequelize');
 
 // Auction routes
@@ -9,8 +10,10 @@ router.get('/auctions', auctionController.getAuctions);
 router.get('/auctions/:auctionId', auctionController.getAuctionById);
 router.put('/auctions/:auctionId', auctionController.updateAuctionStatuses);
 
-router.post('/endAuction/:auctionId', auctionController.endAuction);
+router.post('/endAuction/:auctionId',isAuthenticated, auctionController.endAuction);
 
 router.delete('/delete/:auctionId', auctionController.deleteAuction);
+
+router.get('/getEndAuction/:auctionId', auctionController.getEndedAuctions)
 
 module.exports = router;

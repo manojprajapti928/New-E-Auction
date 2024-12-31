@@ -20,7 +20,7 @@ import ProductCard from "./Component/ProductCard";
 import AddAuction from "./Component/AddAuction";
 import UpdateCard from "./Component/UpdateCard";
 import WinnerDetails from "./Component/WinnerDetails";
-
+import AdminRegister from "./Components/AdminRegister";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,7 +28,7 @@ function App() {
   // Simulate authentication (replace this with actual logic)
   const handleLogin = () => setIsAuthenticated(true);
   const handleLogout = () => setIsAuthenticated(false);
-
+  
   return (
     <>
     
@@ -38,9 +38,10 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<LoginForm onLogin={handleLogin} />} />
           <Route path="/Registration" element={<Registration />} />
-          {/* <Route path="/AdminLogin" element={<AdminLogin />} /> */}
+           <Route path="/AdminRegister" element={<AdminRegister/>}/>
           <Route path="/AuctionList" element={<AuctionList />} />
           <Route path="/bid-list" element={<BidDetail />} />
+
           
 
           {/* Protected routes */}

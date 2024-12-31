@@ -44,7 +44,7 @@ app.use('/api/auction', auctionRoutes);
 // app.use('/api', adminRoutes);
 
 sequelize
-  .sync({ alter:true})
+  .sync({ alter:true})  
   .then(() => {
     console.log('Database connected!');
 

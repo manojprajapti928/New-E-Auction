@@ -398,9 +398,6 @@
 
 
 
-
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -425,22 +422,119 @@ export default function Registration() {
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]); // Country data state
+  const [countriesLoading, setCountriesLoading] = useState(true); // To track if countries are still loading
 
-  // Fetch countries on component mount
+  const countrie = {
+    DZ: "Algeria",
+    AO: "Angola",
+    BJ: "Benin",
+    BW: "Botswana",
+    BF: "Burkina Faso",
+    BI: "Burundi",
+    CV: "Cabo Verde",
+    CM: "Cameroon",
+    CF: "Central African Republic (the)",
+    TD: "Chad",
+    KM: "Comoros (the)",
+    CD: "Congo (the Democratic Republic of the)",
+    CG: "Congo (the)",
+    CI: "Côte d'Ivoire",
+    DJ: "Djibouti",
+    EG: "Egypt",
+    GQ: "Equatorial Guinea",
+    ER: "Eritrea",
+    SZ: "Eswatini",
+    ET: "Ethiopia",
+    GA: "Gabon",
+    GM: "Gambia (the)",
+    GH: "Ghana",
+    GN: "Guinea",
+    GW: "Guinea-Bissau",
+    KE: "Kenya",
+    LS: "Lesotho",
+    LR: "Liberia",
+    LY: "Libya",
+    MG: "Madagascar",
+    MW: "Malawi",
+    ML: "Mali",
+    MR: "Mauritania",
+    MU: "Mauritius",
+    YT: "Mayotte",
+    MA: "Morocco",
+    MZ: "Mozambique",
+    NA: "Namibia",
+    NE: "Niger (the)",
+    NG: "Nigeria",
+    RE: "Réunion",
+    RW: "Rwanda",
+    SH: "Saint Helena, Ascension and Tristan da Cunha",
+    ST: "Sao Tome and Principe",
+    SN: "Senegal",
+    SC: "Seychelles",
+    SL: "Sierra Leone",
+    SO: "Somalia",
+    ZA: "South Africa",
+    SS: "South Sudan",
+    SD: "Sudan (the)",
+    TZ: "Tanzania, the United Republic of",
+    TG: "Togo",
+    TN: "Tunisia",
+    UG: "Uganda",
+    EH: "Western Sahara*",
+    ZM: "Zambia",
+    ZW: "Zimbabwe",
+    AQ: "Antarctica",
+    BV: "Bouvet Island",
+    TF: "French Southern Territories (the)",
+    HM: "Heard Island and McDonald Islands",
+    GS: "South Georgia and the South Sandwich Islands",
+    AF: "Afghanistan",
+    AM: "Armenia",
+    AZ: "Azerbaijan",
+    BD: "Bangladesh",
+    BT: "Bhutan",
+    IO: "British Indian Ocean Territory (the)",
+    BN: "Brunei Darussalam",
+    KH: "Cambodia",
+    CN: "China",
+    GE: "Georgia",
+    HK: "Hong Kong",
+    IN: "India",
+    ID: "Indonesia",
+    JP: "Japan",
+    KZ: "Kazakhstan",
+    KP: "Korea (the Democratic People's Republic of)",
+    KR: "Korea (the Republic of)",
+    KG: "Kyrgyzstan",
+    LA: "Lao People's Democratic Republic (the)",
+    MO: "Macao",
+    MY: "Malaysia",
+    MV: "Maldives",
+    MN: "Mongolia",
+    MM: "Myanmar",
+    NP: "Nepal",
+    PK: "Pakistan",
+    PH: "Philippines (the)",
+    SG: "Singapore",
+    LK: "Sri Lanka",
+    TW: "Taiwan (Province of China)",
+    TJ: "Tajikistan",
+    TH: "Thailand",
+    TL: "Timor-Leste",
+    TM: "Turkmenistan",
+    UZ: "Uzbekistan",
+    VN: "Viet Nam",
+    BZ: "Belize",
+  };
+
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get("https://api.first.org/data/v1/countries");
-        const countryList = Object.values(response.data.data); // Get the list of countries from the API
-        console.log("Fetched countries:", countryList); // Debugging log
-        setCountries(countryList);
-      } catch (err) {
-        console.error("Error fetching countries:", err);
-        setError("Failed to load countries.");
-      }
-    };
-
-    fetchCountries();
+    // Populate countries from the countrie object
+    const countriesList = Object.keys(countrie).map((code) => ({
+      code,
+      country: countrie[code],
+    }));
+    setCountries(countriesList);
+    setCountriesLoading(false); // Once countries are loaded, stop the loading indicator
   }, []);
 
   const handleChange = (e) => {
@@ -550,14 +644,14 @@ export default function Registration() {
                   required
                 >
                   <option value="">Select your country</option>
-                  {countries.length > 0 ? (
+                  {countriesLoading ? (
+                    <option value="">Loading countries...</option> // Show this while loading countries
+                  ) : (
                     countries.map((country, index) => (
                       <option key={index} value={country.country}>
                         {country.country}
                       </option>
                     ))
-                  ) : (
-                    <option value="">Loading countries...</option>
                   )}
                 </select>
               </div>
@@ -581,7 +675,7 @@ export default function Registration() {
                 className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
                 disabled={loading}
               >
-                {loading ? "Registering..." : "Register"}
+                Register
               </button>
             </form>
           </div>
@@ -595,6 +689,8 @@ export default function Registration() {
     </div>
   );
 }
+
+
 
 
 
