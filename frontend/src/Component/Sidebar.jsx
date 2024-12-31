@@ -57,12 +57,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             className="flex items-center p-4 text-sm transition-all hover:bg-blue-700"
           >
             <span className="text-lg">{link.icon}</span>
-            {isOpen && <span className="ml-3">{link.name}</span>}
+            <span className="ml-3">{link.name}</span>
           </Link>
         ))}
       </nav>
 
-      {/* Bottom Section */}
       <div className="mt-auto border-t border-gray-700">
         <Link
           to="/settings"

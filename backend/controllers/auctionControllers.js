@@ -18,6 +18,17 @@ exports.createAuction = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
+    const existingAuction = await Auction.findOne({
+      where: {
+        productId: product.id,
+        status: { [Op.in]: ["upcoming", "ongoing","completed"] },
+      },
+    });
+
+    if (existingAuction) {
+      return res.status(400).json({ error: "This product is already use in Auction." });
+    }
+
     const startTime = moment.tz(auctionStart, "Asia/Kolkata").toDate();
     const endTime = moment.tz(auctionEnd, "Asia/Kolkata").toDate();
     const now = moment().tz("Asia/Kolkata").toDate();
@@ -39,6 +50,8 @@ exports.createAuction = async (req, res) => {
       auctionEnd: endTime,
       status,
     });
+
+    await product.update({ status: "pending" });
 
     cron.schedule(
       `${endTime.getSeconds()} ${endTime.getMinutes()} ${endTime.getHours()} ${endTime.getDate()} ${
@@ -116,53 +129,119 @@ exports.updateAuctionStatuses = async () => {
 };
 cron.schedule("* * * * *", exports.updateAuctionStatuses);
 
-// End Auction
+
+
 exports.endAuction = async (req, res) => {
   try {
     const { auctionId } = req.params;
+
+    const auction = await Auction.findByPk(auctionId);
+    if (!auction) {
+      return res.status(404).json({ error: "Auction not found" });
+    }
+
+
+    // Find all bids for the given auctionId
     const bids = await Bid.findAll({
       where: { auctionId },
       include: [{ model: User, attributes: ["id", "username", "email"] }],
       order: [["amount", "DESC"]],
     });
 
+    const product = await Product.findByPk(auction.productId);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Check if there are any bids
     if (bids.length > 0) {
       const winningBid = bids[0];
 
-      const product = await Product.findByPk(auctionId);
       product.soldTo = winningBid.User.id;
+      product.status = "sold";
       await product.save();
 
+      // Delete all non-winning bids
+      await Bid.destroy({
+        where: {
+          auctionId,
+          id: { [Op.ne]: winningBid.id },
+        },
+      });
+
+      // Send email to the winning user
       const transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
-          user: "manojprajapti928@gmail.com",
-          pass: "pskt xmiz haep xkwt",
+          user: "manojprajapat928@gmail.com",
+          pass: "egou npff eckk aqqe", 
         },
       });
 
       const mailOptions = {
         from: "manojprajapti928@gmail.com",
         to: winningBid.User.email,
-        subject: "Congratulations! You won the auction",
-        text: `Dear ${winningBid.User.username},\n\nCongratulations! You have won the auction for the product "${product.name}" with a bid of $${winningBid.amount}.\n\nPlease contact us for further details.\n\nBest regards,\nAuction Team`,
+        subject: "🎉 Congratulations! You won the auction 🎉",
+        html: `
+          <div>
+            <h2>Congratulations, ${winningBid.User.username}!</h2>
+            <p>You have won the auction for the product: ${product.name}</p>
+            <p>Winning Bid: $${winningBid.amount}</p>
+          </div>
+        `,
       };
 
       await transporter.sendMail(mailOptions);
 
-      res.status(200).json({
-        message: "Auction ended",
-        soldTo: winningBid.User.username,
-        soldPrice: winningBid.amount,
-      });
+      // Check if the logged-in user is the winner
+      const loggedInUserId = req.user.userId;
+
+      if (loggedInUserId === winningBid.User.id) {
+        // Send full details to the winner
+        res.status(200).json({
+          message: "Auction ended successfully..............................",
+          product: {
+            id: product.id,
+            name: product.name,
+            soldPrice: winningBid.amount,
+          },
+          winnerDetails: {
+            id: winningBid.User.id,
+            username: winningBid.User.username,
+            email: winningBid.User.email,
+            // ABC:"abc"
+          },
+        
+        });
+       
+      } else {
+        // Send limited details to other users
+        res.status(200).json({
+          message: "Auction ended successfully",
+          product: {
+            id: product.id,
+            name: product.name,
+            soldPrice: winningBid.amount,
+          },
+          winner: {
+            username: winningBid.User.username,
+          },
+        });
+      }
     } else {
-      res.status(404).json({ message: "Product Unsold" });
+      product.status = "unsold";
+      await product.save();
+      res.status(404).json({ message: "No bids placed. Product unsold." });
     }
   } catch (error) {
     console.error("Error ending auction:", error);
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
 
 // Delete Auction
 exports.deleteAuction = async (req, res) => {
@@ -182,33 +261,68 @@ exports.deleteAuction = async (req, res) => {
   }
 };
 
-// Cron Job to Update Auction Status
-// cron.schedule("* * * * *", async () => {
-//   console.log("Running cron job to update expired auctions...");
 
-//   try {
-//     const now = new Date();
 
-//     // Find expired auctions that are not marked as ended
-//     const expiredAuctions = await Auction.findAll({
-//       where: {
-//         auctionEnd: { [Op.lte]: now },
-//         status: { [Op.ne]: "ended" },
-//       },
-//     });
+// Get Ended Auctions
+exports.getEndedAuctions = async (req, res) => {
+  try {
+    const { auctionId } = req.params;
 
-//     for (const auction of expiredAuctions) {
-//       // Update auction status to "ended"
-//       await auction.update({ status: "ended" });
+    // Fetch the specific auction by ID with completed status
+    const endedAuction = await Auction.findOne({
+      where: { id: auctionId, status: "completed" },
+      include: [
+        {
+          model: Product,
+          include: [
+            {
+              model: Bid,
+              order: [["amount", "DESC"]], // Sort bids in descending order
+              limit: 1, 
+              include: [
+                {
+                  model: User,
+                  attributes: ["id", "username", "email"], // Include user details
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
 
-//       console.log(`Auction ID ${auction.id} marked as ended.`);
+    // If no ended auction is found, return a message
+    if (!endedAuction) {
+      return res.status(404).json({ message: "No ended auction found" });
+    }
 
-//       // Notify users or emit WebSocket event if required
-//       io.emit('auctionEnded', { auctionId: auction.id });
-//     }
+    // Extracting relevant data
+    const winningBid = endedAuction.Product?.Bids[0];
+    const response = {
+      auctionId: endedAuction.id,
+      product: {
+        id: endedAuction.Product.id,
+        name: endedAuction.Product.name,
+        imageUrl: endedAuction.Product.imageUrl,
+        description: endedAuction.Product.description,
+        
+      },
+      winningBid: winningBid
+        ? {
+            amount: winningBid.amount,
+            user: {
+              id: winningBid.User.id,
+              username: winningBid.User.username,
+              email: winningBid.User.email,
+            },
+          }
+        : null, 
+    };
 
-//     console.log("Cron job completed successfully.");
-//   } catch (error) {
-//     console.error("Error in cron job:", error.message);
-//   }
-// });
+    
+    res.status(200).json({ endedAuction: response });
+  } catch (error) {
+    console.error("Error fetching ended auction:", error);
+    res.status(500).json({ error: error.message });
+  }
+};

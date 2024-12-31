@@ -19,8 +19,6 @@ import BidDetail from "./Component/bidDetail";
 import ProductCard from "./Component/ProductCard";
 import AddAuction from "./Component/AddAuction";
 import UpdateCard from "./Component/UpdateCard";
-import WinnerDetails from "./Component/WinnerDetails";
-
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -41,7 +39,6 @@ function App() {
           {/* <Route path="/AdminLogin" element={<AdminLogin />} /> */}
           <Route path="/AuctionList" element={<AuctionList />} />
           <Route path="/bid-list" element={<BidDetail />} />
-          
 
           {/* Protected routes */}
           <Route

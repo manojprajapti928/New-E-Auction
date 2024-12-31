@@ -8,11 +8,11 @@ export default function AddProduct() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    startingPrice: "",
-    auctionStart: "",
-    auctionEnd: "",
+    startingPrice: "",     
+    // auctionStart: "",
+    // auctionEnd: "",
     imageUrl: "",
-    // category: "", // Added for completeness
+    // category: "",
   });
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ export default function AddProduct() {
       if (type === "file") {
         return {
           ...formData,
-          [name]: files[0], // Ensure the file is stored properly
+          [name]: files[0],
         };
       } else {
         return {
